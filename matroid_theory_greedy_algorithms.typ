@@ -280,7 +280,7 @@
   Optimal: $B + C$ (weight $= 10$, value $= 18$).
 ]
 
-#bul[The feasible sets $\{S : "weight"(S) ≤ 10\}$ do *not* form a matroid.]
+#bul[The feasible sets $\{S : "weight"(S) lt.eq 10\}$ do *not* form a matroid.]
 #bul[The *exchange axiom* fails — this is why greedy breaks.]
 
 #pagebreak()
@@ -296,9 +296,9 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
   stroke: med-gray,
   fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
   table.header(
-    text(fill: white)[*Setting*], text(fill: white)[*Ground Set E*], text(fill: white)[*Independent Sets I*]
+    text(fill: white)[*Setting*], text(fill: white)[*Ground Set $E$*], text(fill: white)[*Independent Sets $cal(I)$*]
   ),
-  [Choose $≤ k$ items], [Items], [Subsets of size $≤ k$],
+  [Choose $lt.eq k$ items], [Items], [Subsets of size $lt.eq k$],
   [Linear algebra], [Vectors], [Linearly independent subsets],
   [Graph theory], [Edges], [Acyclic edge sets (forests)],
   [Scheduling], [Jobs], [Feasible job subsets],
@@ -321,14 +321,14 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 #footer-bar
 #slide-header("Definition of a Matroid", part-label: "Part II — First Principles")
 
-#defn-box("Matroid  $M = (E, cal(I))$")[
+#defn-box([Matroid  $M = (E, cal(I))$])[
   A *matroid* is a pair $M = (E, cal(I))$ where $E$ is a finite set and
-  $cal(I) ⊆ 2^E$ satisfies: \
+  $cal(I) subset.eq 2^E$ satisfies: \
 
-  *(I1) Non-emptiness:* $∅ ∈ cal(I)$ \
-  *(I2) Heredity:* If $A ∈ cal(I)$ and $B ⊆ A$, then $B ∈ cal(I)$ \
-  *(I3) Exchange:* If $A, B ∈ cal(I)$ and $|A| < |B|$,
-  then $∃ x ∈ B ∖ A$ such that $A ∪ \{x\} ∈ cal(I)$
+  *(I1) Non-emptiness:* $emptyset in cal(I)$ \
+  *(I2) Heredity:* If $A in cal(I)$ and $B subset.eq A$, then $B in cal(I)$ \
+  *(I3) Exchange:* If $A, B in cal(I)$ and $|A| < |B|$,
+  then $exists x in B without A$ such that $A union \{x\} in cal(I)$
 ]
 
 #bul[Elements of $cal(I)$ are called *independent*; others are *dependent*.]
@@ -358,14 +358,20 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
   radius: 6pt,
   below: 10pt,
 )[
-  #align(center)[#text(size: 15pt, weight: "bold", fill: mid-blue)[(I1)  The empty set is independent: $∅ ∈ cal(I)$]]
+  #align(center)[#text(
+    size: 15pt,
+    weight: "bold",
+    fill: mid-blue,
+  )[(I1)  The empty set is independent: $emptyset in cal(I)$]]
 ]
 
 *Interpretation:*
+
 #bul[Choosing nothing is always feasible — a base case for building independent sets.]
 #bul[Without (I1), we could not guarantee any solution exists.]
 
 *In each setting:*
+
 #bul[*Vectors:* The empty set of vectors is trivially linearly independent.]
 #bul[*Edges:* The empty edge set is a trivially acyclic forest.]
 #bul[*Selection:* Choosing zero items satisfies any cardinality bound.]
@@ -385,21 +391,24 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
   below: 10pt,
 )[
   #align(center)[#text(size: 15pt, weight: "bold", fill: mid-blue)[
-    (I2)  If $A ∈ cal(I)$ and $B ⊆ A$, then $B ∈ cal(I)$
+    (I2)  If $A in cal(I)$ and $B subset.eq A$, then $B in cal(I)$
   ]]
 ]
 
-*Interpretation:* Subsets of independent sets are independent. Independence is _downward-closed_.
+*Interpretation:*
+
+Subsets of independent sets are independent. Independence is _downward-closed_.
 
 *In each setting:*
+
 #bul[*Vectors:* Any subset of linearly independent vectors is linearly independent.]
 #bul[*Edges:* Any subset of an acyclic edge set is also acyclic.]
 #bul[*Selection:* If choosing $k$ items is feasible, choosing fewer is also feasible.]
 
-#warn-box("The Knapsack feasible system violates heredity!")[
-  Feasible sets are $\{S : "weight"(S) ≤ 10\}$. Suppose $\{B, C\}$ is feasible
-  but $\{A, B, C\}$ is not. Yet individually $A$ has weight $6 ≤ 10$.
-  The issue: adding $A$ to $\{B, C\}$ _exceeds_ capacity, so $\{A,B,C\} ∉ cal(I)$.
+#warn-box("Does the Knapsack feasible system violate heredity?")[
+  Feasible sets are $\{S : "weight"(S) lt.eq 10\}$. $\{B, C\}$ is feasible
+  as well as $\{A\}$.
+  The issue: adding $B$ or $C$ to $\{A\}$ _exceeds_ capacity, so $\{A,B\} in.not cal(I)$.
   The downward-closure property _does_ hold here individually, but exchange fails.
 ]
 
@@ -418,42 +427,47 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
   below: 8pt,
 )[
   #align(center)[#text(size: 14pt, weight: "bold", fill: mid-blue)[
-    (I3)  If $A, B ∈ cal(I)$ and $|A| < |B|$,
-    then $∃ x ∈ B ∖ A$ such that $A ∪ \{x\} ∈ cal(I)$
+    (I3)  If $A, B in cal(I)$ and $|A| lt |B|$,
+    then $∃ x in B without A$ such that $A union \{x\} in cal(I)$
   ]]
 ]
 
-*Interpretation:* Any smaller independent set can be _augmented_ from a larger one.
+*Interpretation:*
+
+Any smaller independent set can be _augmented_ from a larger one.
+
 #bul[We can always "fill up" a small independent set using elements of a bigger one.]
 #bul[This is the *heart of greedy correctness* — we prove this formally in Part IV.]
-#bul[In linear algebra: if $dim(A) < dim(B)$, we can find a vector in $B$ not in $"span"(A)$.]
+#bul[In linear algebra: if $dim(A) lt dim(B)$, we can find a vector in $B$ not in $"span"(A)$.]
 
 *Why this matters algorithmically:*
-#bul2[Exchange prevents greedy from reaching a "dead end" — a locally maximal but globally sub-optimal solution.]
-#bul2[It implies all maximal independent sets (bases) have equal size — no "accidentally small" solutions.]
+
+#bul[Exchange prevents greedy from reaching a "dead end" — a locally maximal but globally sub-optimal solution.]
+#bul[It implies all maximal independent sets (bases) have equal size — no "accidentally small" solutions.]
 
 #pagebreak()
 
 // ─── Slide: Uniform Matroid ───────────────────────────────────────────────────
 #footer-bar
-#slide-header("Uniform Matroids $U_{k,n}$", part-label: "Part II — First Principles")
+#slide-header([Uniform Matroids $U#sub[k,n]$], part-label: "Part II — First Principles")
 
-#defn-box("Uniform Matroid $U_{k,n}$")[
-  Ground set: $E = \{1, 2, …, n\}$. \
-  Independent sets: $cal(I) = \{ A ⊆ E : |A| ≤ k \}$.
+#defn-box([Uniform Matroid $U#sub[k,n]$])[
+  Ground set: $E = \{1, 2, dots, n\}$. \
+  Independent sets: $cal(I) = \{ A subset.eq E : |A| lt.eq k \}$.
 ]
 
-#ex-box("$U_{2,4}$ — $E = \\{a, b, c, d\\}$, $k = 2$")[
-  $cal(I)$ = $\{∅, \{a\}, \{b\}, \{c\}, \{d\}, \{a,b\}, \{a,c\}, \{a,d\}, \{b,c\}, \{b,d\}, \{c,d\}\}$ \
+#ex-box([$U#sub[2,4], E = \{a, b, c, d\}$, $k = 2$])[
+  $cal(I)$ = $\{emptyset, \{a\}, \{b\}, \{c\}, \{d\}, \{a,b\}, \{a,c\}, \{a,d\}, \{b,c\}, \{b,d\}, \{c,d\}\}$ \
   Dependent sets: $\{a,b,c\}, \{a,b,d\}, \{a,c,d\}, \{b,c,d\}, \{a,b,c,d\}$
 ]
 
 *Axiom verification:*
-#bul[(I1) $∅ ∈ cal(I)$ since $|∅| = 0 ≤ k$. ✓]
-#bul[(I2) If $|A| ≤ k$ and $B ⊆ A$, then $|B| ≤ |A| ≤ k$. ✓]
-#bul[(I3) If $|A| < |B| ≤ k$, pick any $x ∈ B ∖ A$.  Then $|A ∪ \{x\}| = |A|+1 ≤ |B| ≤ k$. ✓]
 
-#bul[*Greedy on $U_{k,n}$:* simply select the $k$ highest-weight elements. Trivially optimal.]
+#bul[(I1) $emptyset in cal(I)$ since $|emptyset| = 0 lt.eq k$.]
+#bul[(I2) If $|A| lt.eq k$ and $B subset.eq A$, then $|B| lt.eq |A| lt.eq k$.]
+#bul[(I3) If $|A| lt |B| lt.eq k$, pick any $x in B without A$.  Then $|A union \{x\}| = |A|+1 lt.eq |B| lt.eq k$.]
+
+#bul[*Greedy on $U#sub[k,n]$:* simply select the $k$ highest-weight elements. Trivially optimal.]
 
 #pagebreak()
 
@@ -462,43 +476,43 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 #slide-header("Linear Matroids", part-label: "Part II — First Principles")
 
 #defn-box("Linear Matroid")[
-  Let $bb(F)$ be a field, $A$ an $m × n$ matrix over $bb(F)$. \
-  Ground set: $E = \{1, …, n\}$ (column indices). \
-  Independent sets: $cal(I) = \{ S ⊆ E : "columns indexed by " S " are linearly independent" \}$.
+  Let $bb(F)$ be a field, $A$ an $m times n$ matrix over $bb(F)$. \
+  Ground set: $E = \{1, dots, n\}$ (column indices). \
+  Independent sets: $cal(I) = \{ S subset.eq E : "columns indexed by " S " are linearly independent" \}$.
 ]
 
 #ex-box([Over $bb(R)$])[
   $A = mat(1, 0, 1; 0, 1, 1)$.
-  Columns: $v_1 = (1,0)$, $v_2 = (0,1)$, $v_3 = (1,1)$. \
+  Columns: $v_1 = mat(1; 0)$, $v_2 = mat(0; 1)$, $v_3 = mat(1; 1)$. \
   Independent: $\{1\}, \{2\}, \{3\}, \{1,2\}, \{1,3\}, \{2,3\}$. \
   Dependent: $\{1,2,3\}$ since $v_3 = v_1 + v_2$.
 ]
 
-#bul[Exchange axiom $↔$ the linear-algebra augmentation lemma for bases.]
+#bul[Exchange axiom $arrow.l.r$ the linear-algebra augmentation lemma for bases.]
 #bul[Rank of matroid $=$ column rank of $A$.]
-#bul[Used in: network coding, VLSI, maximum-weight closure, matching in bipartite graphs.]
 
 #pagebreak()
 
 // ─── Slide: Graphic Matroid ───────────────────────────────────────────────────
 #footer-bar
-#slide-header("Graphic Matroids $M(G)$", part-label: "Part II — First Principles")
+#slide-header([Graphic Matroids $M(G)$], part-label: "Part II — First Principles")
 
-#defn-box("Graphic Matroid $M(G)$")[
+#defn-box([Graphic Matroid $M(G)$])[
   Let $G = (V, E)$ be an undirected graph. \
   Ground set: $E$ (edges of $G$). \
-  Independent sets: $cal(I) = \{ F ⊆ E : (V, F) " is a forest (acyclic)" \}$.
+  Independent sets: $cal(I) = \{ F subset.eq E : (V, F) " is a forest (acyclic)" \}$.
 ]
 
 *Structure:*
+
 #bul[Bases $=$ spanning forests; in connected $G$: bases $=$ spanning trees (each with $|V|-1$ edges).]
-#bul[Circuits $=$ simple cycles of $G$.]
-#bul[Rank: $r(F) = |V| - ("number of connected components of " (V,F))$.]
+#bul[Rank: $r(F) = |V| - ("number of components of " (V,F))$.]
 
 *Axiom verification:*
-#bul[(I1) Empty edge set is an acyclic forest. ✓]
-#bul[(I2) Any subset of an acyclic edge set is acyclic. ✓]
-#bul[(I3) Two forests $F_1, F_2$ with $|F_1| < |F_2|$: $F_2$ has fewer components, so some edge of $F_2$ connects two components of $F_1$ — adding it stays acyclic. ✓]
+
+#bul[(I1) Empty edge set is an acyclic forest.]
+#bul[(I2) Any subset of an acyclic edge set is acyclic.]
+#bul[(I3) Two forests $F_1, F_2$ with $|F_1| lt |F_2|$: $F_2$ has fewer components, so some edge of $F_2$ connects two components of $F_1$ — adding it stays acyclic. ]
 
 #pagebreak()
 
