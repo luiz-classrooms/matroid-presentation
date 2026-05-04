@@ -542,21 +542,21 @@ Part III develops them further, including circuits and closure.
 #slide-header("A Non-Example: Failure of the Exchange Axiom", part-label: "Part II — First Principles")
 
 #warn-box("Non-matroid: mismatched maximal sets")[
-  $E = \{a, b, c\}$, $cal(I) = \{∅, \{a\}, \{b,c\}\}$. \
+  $E eq \{a, b, c\}$, $cal(I) eq \{emptyset, \{a\}, \{b,c\}\}$. \
   Both $\{a\}$ and $\{b,c\}$ are maximal (cannot add any element). \
-  But $|\{a\}| = 1 ≠ 2 = |\{b,c\}|$. \
+  But $|\{a\}| eq 1 eq.not 2 eq |\{b,c\}|$. \
   Exchange fails: from $\{b,c\}$, we cannot augment $\{a\}$ — $\{a,b\} ∉ cal(I)$ and $\{a,c\} ∉ cal(I)$.
 ]
 
-#thm-box("Diagnostic")[
+#warn-box("Diagnostic")[
   If (I3) fails, there exist weights making greedy suboptimal. \
   *Proof:* Assign $w(a) = 5$, $w(b) = w(c) = 3$. \
   Greedy picks $\{a\}$ (value 5). But $\{b,c\}$ has value 6. Greedy fails.
 ]
 
 #info-box[
-  *Key lesson:* Always verify all three matroid axioms before trusting a greedy algorithm.
-  Failing (I3) is both necessary and sufficient for greedy to break on some weight function.
+  *Key lesson:* Always verify the matroid axioms before trusting a generic greedy algorithm.
+  For a hereditary independence system, (I3) is the decisive axiom: greedy is optimal for every weight function if and only if exchange holds. If exchange fails, some weight function makes greedy fail.
 ]
 
 #pagebreak()
