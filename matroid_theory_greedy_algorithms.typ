@@ -443,7 +443,28 @@ Any smaller independent set can be _augmented_ from a larger one.
 *Why this matters algorithmically:*
 
 #bul[Exchange prevents greedy from reaching a "dead end" — a locally maximal but globally sub-optimal solution.]
-#bul[It implies all maximal independent sets (bases) have equal size — no "accidentally small" solutions.]
+#bul[It implies all maximal independent sets have equal size — no "accidentally small" solutions.]
+
+
+#pagebreak()
+
+// ─── Slide: Basic terminology: Bases and Rank ────────────────────────────────
+#footer-bar
+#slide-header("Basic Terminology: Bases and Rank", part-label: "Part II — First Principles")
+
+#defn-box("Basis")[
+  A *basis* of a matroid $M = (E, cal(I))$ is a maximal independent set:
+  $B in cal(I)$ and no element $e in E without B$ can be added while staying independent.
+]
+
+#defn-box([Rank])[
+  For $A subset.eq E$, the *rank* of $A$ is the size of the largest independent subset of $A$: \
+  $r(A) = max_(I subset.eq A, I in cal(I)) |I|$. \
+  The *rank of the matroid* is $r(E)$.
+]
+
+These terms are introduced here because they are used in the examples below.
+Part III develops them further, including circuits and closure.
 
 #pagebreak()
 
@@ -547,9 +568,9 @@ Any smaller independent set can be _augmented_ from a larger one.
 
 // ─── Slide: Bases ─────────────────────────────────────────────────────────────
 #footer-bar
-#slide-header("Bases", part-label: "Part III — Structure")
+#slide-header("Bases Revisited", part-label: "Part III — Structure")
 
-#defn-box("Basis")[
+#defn-box("Basis (full statement)")[
   A *basis* of $M = (E,cal(I))$ is a maximal independent set: $B ∈ cal(I)$ such that
   $B ∪ \{e\} ∉ cal(I)$ for all $e ∈ E ∖ B$. \
   The collection of all bases is denoted $cal(B)(M)$.
@@ -570,9 +591,9 @@ Any smaller independent set can be _augmented_ from a larger one.
 
 // ─── Slide: Rank ─────────────────────────────────────────────────────────────
 #footer-bar
-#slide-header("Rank Function", part-label: "Part III — Structure")
+#slide-header("Rank Function Revisited", part-label: "Part III — Structure")
 
-#defn-box([Rank  $r : 2^E → bb(Z)_(≥ 0)$])[
+#defn-box([Rank  $r : 2^E → bb(Z)_(≥ 0)$ (full statement)])[
   For $A ⊆ E$: $r(A) = max\{|I| : I ∈ cal(I),\ I ⊆ A\}$. \
   The *rank of the matroid* is $r(E)$.
 ]
