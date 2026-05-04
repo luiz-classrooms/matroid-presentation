@@ -27,27 +27,29 @@
 #set par(justify: false, leading: 0.6em)
 
 // ─── Colour palette ──────────────────────────────────────────────────────────
-#let dark-blue   = rgb("#1a2e4a")
-#let mid-blue    = rgb("#2563a8")
-#let light-blue  = rgb("#dbeafe")
-#let gold        = rgb("#d4a017")
-#let gold-light  = rgb("#fef3c7")
-#let green       = rgb("#166534")
+#let dark-blue = rgb("#1a2e4a")
+#let mid-blue = rgb("#2563a8")
+#let light-blue = rgb("#dbeafe")
+#let gold = rgb("#d4a017")
+#let gold-light = rgb("#fef3c7")
+#let green = rgb("#166534")
 #let green-light = rgb("#dcfce7")
-#let red-dark    = rgb("#991b1b")
-#let red-light   = rgb("#fee2e2")
-#let light-gray  = rgb("#f1f5f9")
-#let med-gray    = rgb("#94a3b8")
-#let dark-gray   = rgb("#334155")
-#let code-bg     = rgb("#1e293b")
-#let code-fg     = rgb("#e2e8f0")
+#let red-dark = rgb("#991b1b")
+#let red-light = rgb("#fee2e2")
+#let light-gray = rgb("#f1f5f9")
+#let med-gray = rgb("#94a3b8")
+#let dark-gray = rgb("#334155")
+#let code-bg = rgb("#1e293b")
+#let code-fg = rgb("#e2e8f0")
 
 // ─── Reusable macros ─────────────────────────────────────────────────────────
 
 // Header bar for each slide
 #let slide-header(title, part-label: none) = {
   block(
-    width: 100%, fill: dark-blue, inset: (x: 10pt, y: 8pt),
+    width: 100%,
+    fill: dark-blue,
+    inset: (x: 10pt, y: 8pt),
     radius: (top-left: 6pt, top-right: 6pt),
     below: 0pt,
   )[
@@ -62,9 +64,12 @@
 
 // Definition box
 #let defn-box(title, body-content) = block(
-  width: 100%, fill: light-blue,
+  width: 100%,
+  fill: light-blue,
   stroke: (paint: mid-blue, thickness: 1.2pt),
-  inset: 10pt, radius: 5pt, below: 8pt,
+  inset: 10pt,
+  radius: 5pt,
+  below: 8pt,
 )[
   #text(fill: mid-blue, weight: "bold")[Definition: #title] \
   #body-content
@@ -72,9 +77,12 @@
 
 // Theorem box
 #let thm-box(title, body-content) = block(
-  width: 100%, fill: gold-light,
+  width: 100%,
+  fill: gold-light,
   stroke: (paint: gold, thickness: 1.2pt),
-  inset: 10pt, radius: 5pt, below: 8pt,
+  inset: 10pt,
+  radius: 5pt,
+  below: 8pt,
 )[
   #text(fill: gold, weight: "bold")[Theorem: #title] \
   #body-content
@@ -82,9 +90,12 @@
 
 // Example box
 #let ex-box(title, body-content) = block(
-  width: 100%, fill: green-light,
+  width: 100%,
+  fill: green-light,
   stroke: (paint: green, thickness: 1.2pt),
-  inset: 10pt, radius: 5pt, below: 8pt,
+  inset: 10pt,
+  radius: 5pt,
+  below: 8pt,
 )[
   #text(fill: green, weight: "bold")[Example: #title] \
   #body-content
@@ -92,9 +103,12 @@
 
 // Non-example / warning box
 #let warn-box(title, body-content) = block(
-  width: 100%, fill: red-light,
+  width: 100%,
+  fill: red-light,
   stroke: (paint: red-dark, thickness: 1.2pt),
-  inset: 10pt, radius: 5pt, below: 8pt,
+  inset: 10pt,
+  radius: 5pt,
+  below: 8pt,
 )[
   #text(fill: red-dark, weight: "bold")[Non-Example: #title] \
   #body-content
@@ -102,16 +116,22 @@
 
 // Info / highlight box
 #let info-box(body-content) = block(
-  width: 100%, fill: light-blue,
+  width: 100%,
+  fill: light-blue,
   stroke: (paint: mid-blue, thickness: 1pt),
-  inset: 10pt, radius: 5pt, below: 8pt,
+  inset: 10pt,
+  radius: 5pt,
+  below: 8pt,
 )[#body-content]
 
 // Pseudocode block
 #let code-block(code-text) = block(
-  width: 100%, fill: code-bg,
+  width: 100%,
+  fill: code-bg,
   stroke: (paint: med-gray, thickness: 0.8pt),
-  inset: 10pt, radius: 4pt, below: 8pt,
+  inset: 10pt,
+  radius: 4pt,
+  below: 8pt,
 )[
   #text(fill: code-fg, font: "Fira Code", size: 10pt)[
     #code-text
@@ -130,8 +150,11 @@
 // Two-column layout
 #let two-col(left, right, left-frac: 50%) = {
   let right-frac = (100% - left-frac)
-  grid(columns: (left-frac, right-frac), gutter: 1em,
-    left, right)
+  grid(
+    columns: (left-frac, right-frac),
+    gutter: 1em,
+    left, right,
+  )
 }
 
 // Part divider slide
@@ -161,7 +184,7 @@
 // ============================================================================
 // SLIDE 1: Title Slide
 // ============================================================================
-#page(background: rect(fill: dark-blue, width:100%, height:100%))[
+#page(background: rect(fill: dark-blue, width: 100%, height: 100%))[
   #align(center + horizon)[
     #text(fill: white, size: 34pt, weight: "bold")[Matroid Theory] \
     #v(0.2em)
@@ -189,8 +212,14 @@
 #footer-bar
 #slide-header("The Central Question: When Does Greedy Work?", part-label: "Part I — Motivation")
 
-#block(width: 100%, fill: light-blue, stroke: (paint: mid-blue, thickness: 1.5pt),
-       inset: 14pt, radius: 6pt, below: 10pt)[
+#block(
+  width: 100%,
+  fill: light-blue,
+  stroke: (paint: mid-blue, thickness: 1.5pt),
+  inset: 14pt,
+  radius: 6pt,
+  below: 10pt,
+)[
   #align(center)[
     #text(size: 15pt, weight: "bold", fill: dark-blue)[
       When does greedily choosing the locally best option yield a globally optimal solution?
@@ -221,7 +250,7 @@
 ]
 
 *Why does greedy work here?*
-#bul[Any subset of size $≤ k$ is feasible.]
+#bul[Any subset of size $lt.eq k$ is feasible.]
 #bul[If our set has fewer than $k$ items and a better unused item exists, we can freely add it.]
 #bul[No feasibility constraint ever _blocks_ a greedy choice.]
 #bul2[This is the *uniform matroid* in disguise — we will formalise it shortly.]
@@ -234,16 +263,16 @@
 
 *Problem:* Capacity $= 10$. Greedy by value/weight ratio:
 
-#table(columns: (auto, auto, auto, auto),
+#table(
+  columns: (auto, auto, auto, auto),
   stroke: med-gray,
   fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-gray },
   table.header(
-    text(fill:white)[*Item*], text(fill:white)[*Weight*],
-    text(fill:white)[*Value*], text(fill:white)[*Val/Wt*],
+    text(fill: white)[*Item*], text(fill: white)[*Weight*], text(fill: white)[*Value*], text(fill: white)[*Val/Wt*]
   ),
   [A], [6], [12], [2.0],
-  [B], [5], [9],  [1.8],
-  [C], [5], [9],  [1.8],
+  [B], [5], [9], [1.8],
+  [C], [5], [9], [1.8],
 )
 
 #warn-box("Greedy by ratio fails!")[
@@ -262,18 +291,17 @@
 
 Both examples involve a collection of _feasible subsets_. The key is their structure:
 
-#table(columns: (auto, auto, auto),
+#table(
+  columns: (auto, auto, auto),
   stroke: med-gray,
   fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
   table.header(
-    text(fill:white)[*Setting*],
-    text(fill:white)[*Ground Set E*],
-    text(fill:white)[*Independent Sets I*],
+    text(fill: white)[*Setting*], text(fill: white)[*Ground Set E*], text(fill: white)[*Independent Sets I*]
   ),
   [Choose $≤ k$ items], [Items], [Subsets of size $≤ k$],
-  [Linear algebra],      [Vectors], [Linearly independent subsets],
-  [Graph theory],        [Edges],   [Acyclic edge sets (forests)],
-  [Scheduling],          [Jobs],    [Feasible job subsets],
+  [Linear algebra], [Vectors], [Linearly independent subsets],
+  [Graph theory], [Edges], [Acyclic edge sets (forests)],
+  [Scheduling], [Jobs], [Feasible job subsets],
 )
 
 #v(0.5em)
@@ -300,21 +328,20 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
   *(I1) Non-emptiness:* $∅ ∈ cal(I)$ \
   *(I2) Heredity:* If $A ∈ cal(I)$ and $B ⊆ A$, then $B ∈ cal(I)$ \
   *(I3) Exchange:* If $A, B ∈ cal(I)$ and $|A| < |B|$,
-  then $∃  x ∈ B ∖ A$ such that $A ∪ \{x\} ∈ cal(I)$
+  then $∃ x ∈ B ∖ A$ such that $A ∪ \{x\} ∈ cal(I)$
 ]
 
 #bul[Elements of $cal(I)$ are called *independent*; others are *dependent*.]
 #bul[$E$ is the *ground set*. Examples: columns of a matrix, edges of a graph, items in a set.]
 
-#table(columns: (auto, auto, auto),
+#table(
+  columns: (auto, auto, auto),
   stroke: med-gray,
   fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
-  table.header(
-    text(fill:white)[*Axiom*], text(fill:white)[*Name*], text(fill:white)[*Informal Meaning*],
-  ),
+  table.header(text(fill: white)[*Axiom*], text(fill: white)[*Name*], text(fill: white)[*Informal Meaning*]),
   [(I1)], [Non-emptiness], [Choosing nothing is always feasible],
-  [(I2)], [Heredity],      [Subsets of feasible sets are feasible],
-  [(I3)], [Exchange],      [Smaller independent sets can be augmented],
+  [(I2)], [Heredity], [Subsets of feasible sets are feasible],
+  [(I3)], [Exchange], [Smaller independent sets can be augmented],
 )
 
 #pagebreak()
@@ -323,9 +350,15 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 #footer-bar
 #slide-header("Axiom (I1): Non-Emptiness", part-label: "Part II — First Principles")
 
-#block(width:100%, fill:light-blue, stroke:(paint:mid-blue,thickness:1.5pt),
-       inset:14pt, radius:6pt, below:10pt)[
-  #align(center)[#text(size:15pt, weight:"bold", fill:mid-blue)[(I1)  The empty set is independent: $∅ ∈ cal(I)$]]
+#block(
+  width: 100%,
+  fill: light-blue,
+  stroke: (paint: mid-blue, thickness: 1.5pt),
+  inset: 14pt,
+  radius: 6pt,
+  below: 10pt,
+)[
+  #align(center)[#text(size: 15pt, weight: "bold", fill: mid-blue)[(I1)  The empty set is independent: $∅ ∈ cal(I)$]]
 ]
 
 *Interpretation:*
@@ -343,9 +376,15 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 #footer-bar
 #slide-header("Axiom (I2): Heredity (Downward Closure)", part-label: "Part II — First Principles")
 
-#block(width:100%, fill:light-blue, stroke:(paint:mid-blue,thickness:1.5pt),
-       inset:14pt, radius:6pt, below:10pt)[
-  #align(center)[#text(size:15pt, weight:"bold", fill:mid-blue)[
+#block(
+  width: 100%,
+  fill: light-blue,
+  stroke: (paint: mid-blue, thickness: 1.5pt),
+  inset: 14pt,
+  radius: 6pt,
+  below: 10pt,
+)[
+  #align(center)[#text(size: 15pt, weight: "bold", fill: mid-blue)[
     (I2)  If $A ∈ cal(I)$ and $B ⊆ A$, then $B ∈ cal(I)$
   ]]
 ]
@@ -368,14 +407,19 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 
 // ─── Slide: Axiom I3 ─────────────────────────────────────────────────────────
 #footer-bar
-#slide-header("Axiom (I3): Exchange (Augmentation) — The Key Axiom",
-              part-label: "Part II — First Principles")
+#slide-header("Axiom (I3): Exchange (Augmentation) — The Key Axiom", part-label: "Part II — First Principles")
 
-#block(width:100%, fill:light-blue, stroke:(paint:mid-blue,thickness:1.5pt),
-       inset:14pt, radius:6pt, below:8pt)[
-  #align(center)[#text(size:14pt, weight:"bold", fill:mid-blue)[
+#block(
+  width: 100%,
+  fill: light-blue,
+  stroke: (paint: mid-blue, thickness: 1.5pt),
+  inset: 14pt,
+  radius: 6pt,
+  below: 8pt,
+)[
+  #align(center)[#text(size: 14pt, weight: "bold", fill: mid-blue)[
     (I3)  If $A, B ∈ cal(I)$ and $|A| < |B|$,
-    then $∃  x ∈ B ∖ A$ such that $A ∪ \{x\} ∈ cal(I)$
+    then $∃ x ∈ B ∖ A$ such that $A ∪ \{x\} ∈ cal(I)$
   ]]
 ]
 
@@ -447,8 +491,8 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 ]
 
 *Structure:*
-#bul[Bases $= $ spanning forests; in connected $G$: bases $= $ spanning trees (each with $|V|-1$ edges).]
-#bul[Circuits $= $ simple cycles of $G$.]
+#bul[Bases $=$ spanning forests; in connected $G$: bases $=$ spanning trees (each with $|V|-1$ edges).]
+#bul[Circuits $=$ simple cycles of $G$.]
 #bul[Rank: $r(F) = |V| - ("number of connected components of " (V,F))$.]
 
 *Axiom verification:*
@@ -460,8 +504,7 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 
 // ─── Slide: Non-example ──────────────────────────────────────────────────────
 #footer-bar
-#slide-header("A Non-Example: Failure of the Exchange Axiom",
-              part-label: "Part II — First Principles")
+#slide-header("A Non-Example: Failure of the Exchange Axiom", part-label: "Part II — First Principles")
 
 #warn-box("Non-matroid: mismatched maximal sets")[
   $E = \{a, b, c\}$, $cal(I) = \{∅, \{a\}, \{b,c\}\}$. \
@@ -500,7 +543,7 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 
 #thm-box("Equal Cardinality of Bases")[
   All bases of a matroid have the same cardinality. \
-  *Proof sketch:* Suppose $|B_1| < |B_2|$. By (I3), $∃  e ∈ B_2 ∖ B_1$
+  *Proof sketch:* Suppose $|B_1| < |B_2|$. By (I3), $∃ e ∈ B_2 ∖ B_1$
   with $B_1 ∪ \{e\} ∈ cal(I)$, contradicting maximality of $B_1$. ∎
 ]
 
@@ -527,7 +570,7 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 
 *In specific matroids:*
 #bul[$U_{k,n}$: $r(A) = min(|A|, k)$.]
-#bul[Linear matroid: $r(A) = $ column rank of the submatrix with columns in $A$.]
+#bul[Linear matroid: $r(A) =$ column rank of the submatrix with columns in $A$.]
 #bul[Graphic matroid: $r(F) = |V| - c(F)$ where $c(F)$ = number of connected components.]
 
 #pagebreak()
@@ -592,16 +635,15 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 
 // ─── Slide: Generic greedy ───────────────────────────────────────────────────
 #footer-bar
-#slide-header("The Generic Greedy Algorithm for Matroids",
-              part-label: "Part IV — Greedy Algorithms")
+#slide-header("The Generic Greedy Algorithm for Matroids", part-label: "Part IV — Greedy Algorithms")
 
 #code-block[
-GREEDY(M = (E, I), w : E → ℝ):\
+  GREEDY(M = (E, I), w : E → ℝ):\
   Sort elements: e₁, e₂, ..., eₙ  with  w(e₁) ≥ w(e₂) ≥ ... ≥ w(eₙ)\
   S ← ∅\
   for i = 1 to n do:\
-      if  S ∪ {eᵢ} ∈ I  then\
-          S ← S ∪ {eᵢ}\
+  if  S ∪ {eᵢ} ∈ I  then\
+  S ← S ∪ {eᵢ}\
   return S
 ]
 
@@ -638,8 +680,7 @@ GREEDY(M = (E, I), w : E → ℝ):\
 
 // ─── Slide: Exchange enables greedy ──────────────────────────────────────────
 #footer-bar
-#slide-header("Exchange Axiom: Why Greedy Cannot Get Stuck",
-              part-label: "Part IV — Greedy Algorithms")
+#slide-header("Exchange Axiom: Why Greedy Cannot Get Stuck", part-label: "Part IV — Greedy Algorithms")
 
 #info-box[
   The exchange axiom is precisely what prevents greedy from reaching a "local maximum trap".
@@ -668,8 +709,7 @@ GREEDY(M = (E, I), w : E → ℝ):\
 
 // ─── Slide: Partition matroid ─────────────────────────────────────────────────
 #footer-bar
-#slide-header("Partition Matroid: Best From Each Category",
-              part-label: "Part V — Examples")
+#slide-header("Partition Matroid: Best From Each Category", part-label: "Part V — Examples")
 
 #defn-box("Partition Matroid")[
   $E$ partitioned into disjoint classes $E_1, E_2, …, E_m$ with quotas $k_1, …, k_m$. \
@@ -692,8 +732,7 @@ GREEDY(M = (E, I), w : E → ℝ):\
 
 // ─── Slide: Graphic matroid greedy ───────────────────────────────────────────
 #footer-bar
-#slide-header("Graphic Matroid: Maximum-Weight Forest",
-              part-label: "Part V — Examples")
+#slide-header("Graphic Matroid: Maximum-Weight Forest", part-label: "Part V — Examples")
 
 *Matroid:* $M(G) = (E, cal(I))$ where $E =$ edges, $cal(I) =$ acyclic subsets.
 
@@ -730,7 +769,7 @@ GREEDY(M = (E, I), w : E → ℝ):\
 
 *Matroid connection:*
 #bul[Graphic matroid $M(G) = (E, cal(I))$: $E =$ edges, $cal(I) =$ forests.]
-#bul[Bases $= $ spanning trees. MST $= $ minimum-weight basis of $M(G)$.]
+#bul[Bases $=$ spanning trees. MST $=$ minimum-weight basis of $M(G)$.]
 #bul[By the matroid greedy theorem: processing edges in ascending weight order and adding cycle-free edges is optimal.]
 
 *Applications:*
@@ -746,15 +785,15 @@ GREEDY(M = (E, I), w : E → ℝ):\
 #slide-header("Kruskal's Algorithm", part-label: "Part VI — MSTs")
 
 #code-block[
-KRUSKAL(G = (V, E), w : E → ℝ):\
+  KRUSKAL(G = (V, E), w : E → ℝ):\
   Sort edges: e₁, e₂, ..., eₘ  with  w(e₁) ≤ w(e₂) ≤ ... ≤ w(eₘ)\
   T ← ∅          // growing MST forest\
   DSU.init(V)    // one component per vertex\
   for i = 1 to m do:\
-      let eᵢ = (u, v)\
-      if DSU.find(u) ≠ DSU.find(v)  then   // adding eᵢ creates no cycle\
-          T ← T ∪ {eᵢ}\
-          DSU.union(u, v)\
+  let eᵢ = (u, v)\
+  if DSU.find(u) ≠ DSU.find(v)  then   // adding eᵢ creates no cycle\
+  T ← T ∪ {eᵢ}\
+  DSU.union(u, v)\
   return T
 ]
 
@@ -772,11 +811,11 @@ KRUSKAL(G = (V, E), w : E → ℝ):\
 *Purpose:* Maintain a partition of $V$ into connected components of the growing forest.
 
 #code-block[
-DSU.init(V):    each vertex forms its own singleton component\
-DSU.find(u):    return root/representative of the component containing u\
-DSU.union(u,v): merge the components of u and v\
-\
-Key invariant: find(u) == find(v)  ⟺  u and v are connected in current T
+  DSU.init(V):    each vertex forms its own singleton component\
+  DSU.find(u):    return root/representative of the component containing u\
+  DSU.union(u,v): merge the components of u and v\
+  \
+  Key invariant: find(u) == find(v)  ⟺  u and v are connected in current T
 ]
 
 *Optimisations:*
@@ -797,16 +836,17 @@ Key invariant: find(u) == find(v)  ⟺  u and v are connected in current T
   [
     *Graph $G$:* 5 vertices $\{A,B,C,D,E\}$, 7 edges.
 
-    #table(columns: (auto, auto, auto),
+    #table(
+      columns: (auto, auto, auto),
       stroke: med-gray,
       fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-gray },
-      table.header(text(fill:white)[*Edge*], text(fill:white)[*Weight*], text(fill:white)[*Action*]),
-      [C–E], [2],  [Add ✓],
-      [A–B], [4],  [Add ✓],
-      [D–E], [6],  [Add ✓],
-      [B–E], [7],  [Add ✓],
-      [A–D], [8],  [Skip (cycle)],
-      [B–C], [8],  [Skip (cycle)],
+      table.header(text(fill: white)[*Edge*], text(fill: white)[*Weight*], text(fill: white)[*Action*]),
+      [C–E], [2], [Add ✓],
+      [A–B], [4], [Add ✓],
+      [D–E], [6], [Add ✓],
+      [B–E], [7], [Add ✓],
+      [A–D], [8], [Skip (cycle)],
+      [B–C], [8], [Skip (cycle)],
       [B–D], [11], [Skip (cycle)],
     )
   ],
@@ -815,8 +855,7 @@ Key invariant: find(u) == find(v)  ⟺  u and v are connected in current T
 
     Total weight $= 2 + 4 + 6 + 7 = bold(19)$
 
-    #block(fill: gold-light, stroke: (paint: gold, thickness: 1pt),
-           inset: 8pt, radius: 4pt)[
+    #block(fill: gold-light, stroke: (paint: gold, thickness: 1pt), inset: 8pt, radius: 4pt)[
       After adding $C{-}E$: components $\{C,E\}, \{A\},\{B\},\{D\}$. \
       After $A{-}B$: $\{A,B\}$, $\{C,E\}$, $\{D\}$. \
       After $D{-}E$: $\{C,D,E\}$, $\{A,B\}$. \
@@ -832,16 +871,16 @@ Key invariant: find(u) == find(v)  ⟺  u and v are connected in current T
 #slide-header("Prim's Algorithm", part-label: "Part VI — MSTs")
 
 #code-block[
-PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
+  PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
   key[v] ← ∞  for all v ∈ V;   key[s] ← 0\
   parent[v] ← NIL  for all v ∈ V\
   Q ← min-priority queue containing all vertices, keyed by key[·]\
   while Q ≠ ∅ do:\
-      u ← EXTRACT-MIN(Q)\
-      for each neighbour v of u do:\
-          if v ∈ Q  and  w(u,v) < key[v]  then\
-              parent[v] ← u\
-              key[v] ← w(u,v)         ▷ DECREASE-KEY in Q\
+  u ← EXTRACT-MIN(Q)\
+  for each neighbour v of u do:\
+  if v ∈ Q  and  w(u,v) < key[v]  then\
+  parent[v] ← u\
+  key[v] ← w(u,v)         ▷ DECREASE-KEY in Q\
   return { (parent[v], v) : v ≠ s }
 ]
 
@@ -880,21 +919,18 @@ PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
 #footer-bar
 #slide-header("Kruskal vs Prim: Comparison", part-label: "Part VI — MSTs")
 
-#table(columns: (auto, auto, auto),
+#table(
+  columns: (auto, auto, auto),
   stroke: med-gray,
   fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
-  table.header(
-    text(fill:white)[*Aspect*],
-    text(fill:white)[*Kruskal's*],
-    text(fill:white)[*Prim's*],
-  ),
-  [Strategy],          [Global edge sort],             [Local vertex expansion],
-  [Data structure],    [Union-Find (DSU)],             [Priority queue],
-  [Grows],             [A forest (multiple trees)],    [One tree from start node],
-  [Time],              [$O(|E| log |E|)$],            [$O(|E| log |V|)$ or better],
-  [Best for],          [Sparse graphs],                [Dense graphs (Fibonacci heap)],
-  [Matroid view],      [Direct graphic matroid greedy],[Implicit; cut-property driven],
-  [Correctness basis], [Matroid greedy theorem],       [Cut property],
+  table.header(text(fill: white)[*Aspect*], text(fill: white)[*Kruskal's*], text(fill: white)[*Prim's*]),
+  [Strategy], [Global edge sort], [Local vertex expansion],
+  [Data structure], [Union-Find (DSU)], [Priority queue],
+  [Grows], [A forest (multiple trees)], [One tree from start node],
+  [Time], [$O(|E| log |E|)$], [$O(|E| log |V|)$ or better],
+  [Best for], [Sparse graphs], [Dense graphs (Fibonacci heap)],
+  [Matroid view], [Direct graphic matroid greedy], [Implicit; cut-property driven],
+  [Correctness basis], [Matroid greedy theorem], [Cut property],
 )
 
 #v(0.3em)
@@ -932,8 +968,7 @@ PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
 
 // ─── Slide: Submodular opt ────────────────────────────────────────────────────
 #footer-bar
-#slide-header("Submodular Optimisation over Matroids",
-              part-label: "Part VII — Beyond MSTs")
+#slide-header("Submodular Optimisation over Matroids", part-label: "Part VII — Beyond MSTs")
 
 #defn-box("Submodular Function")[
   $f : 2^E → bb(R)$ is *submodular* if for all $A, B ⊆ E$: \
@@ -955,14 +990,13 @@ PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
 
 // ─── Slide: Greedoids ────────────────────────────────────────────────────────
 #footer-bar
-#slide-header("Generalisations: Greedoids and Antimatroids",
-              part-label: "Part VII — Beyond MSTs")
+#slide-header("Generalisations: Greedoids and Antimatroids", part-label: "Part VII — Beyond MSTs")
 
 *What if we relax matroid axioms?*
 
 #defn-box("Greedoid")[
   $(E, cal(F))$ with $∅ ∈ cal(F)$ and: for $A, B ∈ cal(F)$ with $|A| > |B|$,
-  $∃  e ∈ A$ s.t. $B ∪ \{e\} ∈ cal(F)$. \
+  $∃ e ∈ A$ s.t. $B ∪ \{e\} ∈ cal(F)$. \
   Heredity (I2) is *not required*.
 ]
 
@@ -984,23 +1018,21 @@ PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
 #footer-bar
 #slide-header("Applications of Matroid Theory", part-label: "Part VII — Beyond MSTs")
 
-#table(columns: (auto, auto),
+#table(
+  columns: (auto, auto),
   stroke: med-gray,
   fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
-  table.header(
-    text(fill:white)[*Application Domain*],
-    text(fill:white)[*Matroid concept used*],
-  ),
-  [Network design (cable, roads)],    [Graphic matroid — MST],
-  [Bipartite matching],                [Matroid intersection],
-  [Job scheduling],                    [Partition / transversal matroids],
-  [Error-correcting codes],            [Linear matroids over finite fields],
-  [VLSI circuit layout],               [Linear matroids, connectivity],
-  [Influence / viral marketing],       [Submodular optimisation over matroids],
-  [Approximation algorithms (TSP)],    [MST as 2-approximation],
-  [Phylogenetics],                     [MST for tree reconstruction],
-  [Image segmentation],                [Graph-cut / matroid methods],
-  [Combinatorial auctions],            [Submodular welfare maximisation],
+  table.header(text(fill: white)[*Application Domain*], text(fill: white)[*Matroid concept used*]),
+  [Network design (cable, roads)], [Graphic matroid — MST],
+  [Bipartite matching], [Matroid intersection],
+  [Job scheduling], [Partition / transversal matroids],
+  [Error-correcting codes], [Linear matroids over finite fields],
+  [VLSI circuit layout], [Linear matroids, connectivity],
+  [Influence / viral marketing], [Submodular optimisation over matroids],
+  [Approximation algorithms (TSP)], [MST as 2-approximation],
+  [Phylogenetics], [MST for tree reconstruction],
+  [Image segmentation], [Graph-cut / matroid methods],
+  [Combinatorial auctions], [Submodular welfare maximisation],
 )
 
 #pagebreak()
@@ -1014,8 +1046,7 @@ PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
 #footer-bar
 #slide-header("Key Takeaways", part-label: "Part VIII — Conclusion")
 
-#block(width:100%, fill:light-blue, stroke:(paint:mid-blue,thickness:1.5pt),
-       inset:12pt, radius:6pt)[
+#block(width: 100%, fill: light-blue, stroke: (paint: mid-blue, thickness: 1.5pt), inset: 12pt, radius: 6pt)[
 
   #bul[A *matroid* $M = (E, cal(I))$ abstracts the notion of independence from linear algebra, graph theory, and combinatorics.]
 
@@ -1036,14 +1067,12 @@ PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
 #footer-bar
 #slide-header("References", part-label: "Further Reading")
 
-#table(columns: (auto, auto),
+#table(
+  columns: (auto, auto),
   stroke: med-gray,
   fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-gray },
-  table.header(
-    text(fill:white)[*Reference*], text(fill:white)[*Focus*],
-  ),
-  [Oxley, J. (2011). _Matroid Theory_, 2nd ed. Oxford University Press.],
-  [Comprehensive reference on matroid theory],
+  table.header(text(fill: white)[*Reference*], text(fill: white)[*Focus*]),
+  [Oxley, J. (2011). _Matroid Theory_, 2nd ed. Oxford University Press.], [Comprehensive reference on matroid theory],
 
   [Edmonds, J. (1971). "Matroids and the Greedy Algorithm." _Math. Programming_ 1, 127–136.],
   [Original paper — matroid greedy theorem],
@@ -1051,14 +1080,11 @@ PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
   [Cormen, Leiserson, Rivest, Stein. _Introduction to Algorithms_, 4th ed. MIT Press.],
   [MST algorithms, greedy, Union-Find],
 
-  [Schrijver, A. (2003). _Combinatorial Optimization_. Springer.],
-  [Matroids, polymatroids, submodularity],
+  [Schrijver, A. (2003). _Combinatorial Optimization_. Springer.], [Matroids, polymatroids, submodularity],
 
-  [Korte, B. & Vygen, J. (2012). _Combinatorial Optimization_, 5th ed. Springer.],
-  [Greedoids, matroids, algorithms],
+  [Korte, B. & Vygen, J. (2012). _Combinatorial Optimization_, 5th ed. Springer.], [Greedoids, matroids, algorithms],
 
-  [Welsh, D. (1976). _Matroid Theory_. Academic Press.],
-  [Classic textbook — readable and complete],
+  [Welsh, D. (1976). _Matroid Theory_. Academic Press.], [Classic textbook — readable and complete],
 
   [Lawler, E. (1975). "Matroid Intersection Algorithms." _Math. Programming_ 9, 31–56.],
   [Matroid intersection algorithms],
@@ -1072,26 +1098,21 @@ PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
 
 A matroid can be equivalently defined via any of the following systems:
 
-#table(columns: (auto, auto),
+#table(
+  columns: (auto, auto),
   stroke: med-gray,
   fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
-  table.header(
-    text(fill:white)[*System*], text(fill:white)[*Key axiom*],
-  ),
-  [Independent sets $cal(I)$],
-  [(I3) Exchange: smaller $cal(I)$-set can be augmented from larger],
+  table.header(text(fill: white)[*System*], text(fill: white)[*Key axiom*]),
+  [Independent sets $cal(I)$], [(I3) Exchange: smaller $cal(I)$-set can be augmented from larger],
 
   [Bases $cal(B)$],
   [(B2) Basis exchange: $∀ B_1,B_2 ∈ cal(B),\ ∀ e ∈ B_1 ∖ B_2,\ ∃ f ∈ B_2 ∖ B_1 : (B_1 ∖ \{e\}) ∪ \{f\} ∈ cal(B)$],
 
-  [Circuits $cal(C)$],
-  [(C3) Elimination: $C_1 ≠ C_2,\ e ∈ C_1 ∩ C_2 ⇒ ∃ C_3 ⊆ (C_1 ∪ C_2) ∖ \{e\}$],
+  [Circuits $cal(C)$], [(C3) Elimination: $C_1 ≠ C_2,\ e ∈ C_1 ∩ C_2 ⇒ ∃ C_3 ⊆ (C_1 ∪ C_2) ∖ \{e\}$],
 
-  [Rank $r$],
-  [(R3) Submodularity: $r(A ∪ B) + r(A ∩ B) ≤ r(A) + r(B)$],
+  [Rank $r$], [(R3) Submodularity: $r(A ∪ B) + r(A ∩ B) ≤ r(A) + r(B)$],
 
-  [Closure $"cl"$],
-  [(CL4) Mac Lane: $e ∉ "cl"(A),\ e ∈ "cl"(A ∪ \{f\}) ⇒ f ∈ "cl"(A ∪ \{e\})$],
+  [Closure $"cl"$], [(CL4) Mac Lane: $e ∉ "cl"(A),\ e ∈ "cl"(A ∪ \{f\}) ⇒ f ∈ "cl"(A ∪ \{e\})$],
 )
 
 #v(0.5em)
