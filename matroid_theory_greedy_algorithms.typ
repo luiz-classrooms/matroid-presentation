@@ -571,19 +571,20 @@ Part III develops them further, including circuits and closure.
 #slide-header("Bases Revisited", part-label: "Part III — Structure")
 
 #defn-box("Basis (full statement)")[
-  A *basis* of $M = (E,cal(I))$ is a maximal independent set: $B ∈ cal(I)$ such that
-  $B ∪ \{e\} ∉ cal(I)$ for all $e ∈ E ∖ B$. \
+  A *basis* of $M = (E,cal(I))$ is a maximal independent set: $B in cal(I)$ such that
+  $B union \{e\} in.not cal(I)$ for all $e in E without B$. \
   The collection of all bases is denoted $cal(B)(M)$.
 ]
 
 #thm-box("Equal Cardinality of Bases")[
   All bases of a matroid have the same cardinality. \
-  *Proof sketch:* Suppose $|B_1| < |B_2|$. By (I3), $∃ e ∈ B_2 ∖ B_1$
-  with $B_1 ∪ \{e\} ∈ cal(I)$, contradicting maximality of $B_1$. ∎
+  *Proof sketch:* Suppose $|B_1| lt |B_2|$. By (I3), $exists e in B_2 without B_1$
+  with $B_1 union \{e\} in cal(I)$, contradicting maximality of $B_1$. $square.filled$
 ]
 
 *Examples:*
-#bul[$U_{k,n}$: all bases have size exactly $k$.]
+
+#bul[$U_(k,n)$: all bases have size exactly $k$.]
 #bul[Linear matroid on $A$: bases are maximal linearly independent column sets — all have size $= "rank"(A)$.]
 #bul[Graphic matroid on connected $G$: bases $=$ spanning trees, all of size $|V|-1$.]
 
@@ -593,18 +594,40 @@ Part III develops them further, including circuits and closure.
 #footer-bar
 #slide-header("Rank Function Revisited", part-label: "Part III — Structure")
 
-#defn-box([Rank  $r : 2^E → bb(Z)_(≥ 0)$ (full statement)])[
-  For $A ⊆ E$: $r(A) = max\{|I| : I ∈ cal(I),\ I ⊆ A\}$. \
+#defn-box([Rank  $r : 2^E → bb(Z)_(gt.eq 0)$ (full statement)])[
+  For $A subset.eq E$: $r(A) = max\{|I| : I in cal(I), I subset.eq A\}$.
+
   The *rank of the matroid* is $r(E)$.
 ]
 
 *Key properties:*
-#bul[(R1) $0 ≤ r(A) ≤ |A|$]
-#bul[(R2) Monotone: $A ⊆ B ⇒ r(A) ≤ r(B)$]
-#bul[(R3) *Submodular*: $r(A ∪ B) + r(A ∩ B) ≤ r(A) + r(B)$]
+
+#bul[(R1) $0 lt.eq r(A) lt.eq |A|$]
+#bul[(R2) *Monotone*: $A subset.eq B arrow.double r(A) lt.eq r(B)$]
+#bul[(R3) *Submodular*: $r(A union B) + r(A inter B) lt.eq r(A) + r(B)$]
+
+#info-box[
+  Let $C = A inter B$. Since $C subset.eq A$ and $B subset.eq A union B$,
+  monotonicity gives
+  $
+    r(C) lt.eq r(A), quad r(B) lt.eq r(A union B).
+  $
+
+  The rank gained by adding $A$ to the larger set $B$
+  is no more than the rank gained by adding $A$ to $C$:
+  $
+    r(A union B) - r(B) lt.eq r(A) - r(C).
+  $
+
+  Using $C = A inter B$ and rearranging,
+  $
+    r(A union B) + r(A inter B) lt.eq r(A) + r(B).
+  $
+]
 
 *In specific matroids:*
-#bul[$U_{k,n}$: $r(A) = min(|A|, k)$.]
+
+#bul[$U_(k,n)$: $r(A) = min(|A|, k)$.]
 #bul[Linear matroid: $r(A) =$ column rank of the submatrix with columns in $A$.]
 #bul[Graphic matroid: $r(F) = |V| - c(F)$ where $c(F)$ = number of connected components.]
 
@@ -615,29 +638,59 @@ Part III develops them further, including circuits and closure.
 #slide-header("Circuits", part-label: "Part III — Structure")
 
 #defn-box("Circuit")[
-  A *circuit* is a minimal dependent set: $C ⊆ E$ with $C ∉ cal(I)$
-  but $C ∖ \{e\} ∈ cal(I)$ for every $e ∈ C$. \
+  A *circuit* is a minimal dependent set: $C subset.eq E$ with $C in.not cal(I)$
+  but $C without \{e\} in cal(I)$ for every $e in C$. \
   The collection of all circuits is $cal(C)(M)$.
 ]
 
 #two-col(
   [
     *In graphic matroids:*
+
     #bul[Circuits $=$ simple cycles of $G$.]
     #bul[Adding any edge to a spanning tree creates exactly one circuit.]
     #bul[Cycle property: the heaviest edge in any cycle belongs to no MST.]
-
-    #ex-box("")[
-      Path $1{-}2{-}3{-}1$ is a circuit. Removing any edge yields an acyclic (independent) set.
-    ]
   ],
   [
     *Circuit properties:*
-    #bul[No circuit is a subset of another: $cal(C)(M)$ is an antichain.]
-    #bul[*Circuit elimination:* If $C_1, C_2 ∈ cal(C)(M)$ and $e ∈ C_1 ∩ C_2$, then $∃ C_3 ∈ cal(C)(M)$ with $C_3 ⊆ (C_1 ∪ C_2) ∖ \{e\}$.]
-    #bul[Matroids can be axiomatised via circuits equivalently.]
+
+    #bul[No circuit is a subset of another.]
+    #bul[*Circuit elimination:* If $C_1, C_2 in cal(C)(M)$ and $e in C_1 inter C_2$, then $exists C_3 in cal(C)(M)$ with $C_3 subset.eq (C_1 ∪ C_2) without \{e\}$.]
   ],
 )
+
+#info-box[
+  Let $X=(C_1 union C_2) without \{e\}$.
+  Suppose no circuit lies in $X$. Then $X$ is independent, so $r(X)=|X|.$
+
+  Since $C_1,C_2$ are circuits, $r(C_i)=|C_i|-1$.
+  By submodularity, $r(C_1 union C_2)+r(C_1 inter C_2) lt.eq |C_1|+|C_2|-2.$
+
+  But $X$ independent gives $r(C_1 union C_2)=r(X)=|C_1 union C_2|-1,$
+
+  and always
+  $
+    r(C_1 inter C_2) lt.eq |C_1 inter C_2|.
+  $
+
+  Hence
+  $
+    |C_1 union C_2|-1 + |C_1 inter C_2|
+    lt.eq |C_1|+|C_2|-2.
+  $
+
+  So
+  $
+    |C_1 union C_2| + |C_1 inter C_2|
+    lt.eq |C_1|+|C_2|-1,
+  $
+  contradicting
+  $
+    |C_1 union C_2| + |C_1 inter C_2| = |C_1|+|C_2|.
+  $
+
+  Therefore $X$ is dependent and contains a circuit $C_3 subset.eq X$.
+]
 
 #pagebreak()
 
@@ -645,21 +698,23 @@ Part III develops them further, including circuits and closure.
 #footer-bar
 #slide-header("Closure (Span)", part-label: "Part III — Structure")
 
-#defn-box([Closure  $"cl" : 2^E -> 2^E$])[
-  $"cl"(A) = \{ e ∈ E : r(A ∪ \{e\}) = r(A) \}$. \
-  Equivalently: $e ∈ "cl"(A)$ iff adding $e$ to $A$ does not increase rank.
+#defn-box([Closure  $"cl" : 2^E arrow 2^E$])[
+  $"cl"(A) = \{ e in E : r(A union \{e\}) = r(A) \}$. \
+  Equivalently: $e in "cl"(A)$ iff adding $e$ to $A$ does not increase rank.
 ]
 
 *Intuition:*
+
 #bul[$"cl"(A)$ is the "span" of $A$ — all elements already "dependent" on $A$.]
 #bul[Linear matroids: $"cl"(A) = \{$vectors in $E$ lying in $"span"(A)\}$.]
 #bul[Graphic matroids: $"cl"(F) = F ∪ \{$edges whose endpoints are connected in $(V,F)\}$.]
 
 *Closure axioms (alternative axiom system for matroids):*
+
 #bul[(CL1) $A ⊆ "cl"(A)$]
 #bul[(CL2) $A ⊆ B ⇒ "cl"(A) ⊆ "cl"(B)$]
 #bul[(CL3) $"cl"("cl"(A)) = "cl"(A)$]
-#bul[(CL4) *Mac Lane–Steinitz:* $e ∉ "cl"(A)$ and $e ∈ "cl"(A ∪ \{f\}) ⇒ f ∈ "cl"(A ∪ \{e\})$]
+#bul[(CL4) *Mac Lane–Steinitz:* $e in.not "cl"(A)$ and $e in "cl"(A union \{f\}) arrow.double f in "cl"(A union \{e\})$]
 
 #pagebreak()
 
