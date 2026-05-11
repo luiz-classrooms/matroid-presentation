@@ -728,21 +728,20 @@ Part III develops them further, including circuits and closure.
 #slide-header("The Generic Greedy Algorithm for Matroids", part-label: "Part IV — Greedy Algorithms")
 
 #code-block[
-  GREEDY(M = (E, I), w : E → ℝ):\
-  Sort elements: e₁, e₂, ..., eₙ  with  w(e₁) ≥ w(e₂) ≥ ... ≥ w(eₙ)\
-  S ← ∅\
-  for i = 1 to n do:\
-  if  S ∪ {eᵢ} ∈ I  then\
-  S ← S ∪ {eᵢ}\
-  return S
+  GREEDY($M = (E, cal(I)), w : E arrow bb(R)$):\
+  Sort elements: $e_1, e_2, dots, e_n$  with  $w(e_1) gt.eq w(e_2) gt.eq dots gt.eq w(e_n)$\
+  $S arrow.l emptyset$\
+  for $i arrow.l 1 dots n$ do: if $S union {e_i} in cal(I)$: $S arrow.l S union {e_i}$\
+  return $S$
 ]
 
 *Properties:*
+
 #bul[Time: $O(n log n)$ for sorting + $n$ independence oracle calls.]
-#bul[Correctness: holds *if and only if* $(E, cal(I))$ is a matroid.]
+#bul[Correctness: holds *if and only if* $M = (E, cal(I))$ is a matroid.]
 #bul[Independence oracle examples:]
-#bul2[$U_{k,n}$: check $|S| < k$. $O(1)$.]
-#bul2[Graphic: check cycle via Union-Find. $O(α(n))$ amortised.]
+#bul2[$U_(k,n)$: check $|S| lt.eq k$. $O(1)$.]
+#bul2[Graphic: check cycle via Union-Find. $O(alpha(n))$ amortised.]
 #bul2[Linear: check rank via Gaussian elimination. $O(n^2)$.]
 
 #pagebreak()
@@ -754,16 +753,38 @@ Part III develops them further, including circuits and closure.
 #thm-box("Matroid Greedy Theorem (Edmonds, 1971)")[
   Let $(E, cal(I))$ be an independence system (satisfying I1 and I2).
   The greedy algorithm finds a maximum-weight basis for *every* weight function
-  $w : E → bb(R)_{≥ 0}$ *if and only if* $(E, cal(I))$ is a matroid.
+  $w : E arrow bb(R)_(gt.eq 0)$ *if and only if* $(E, cal(I))$ is a matroid.
 ]
 
-*Proof sketch ($⇒$) — matroids make greedy optimal:*
-#bul[Suppose greedy output $S$ is suboptimal; let OPT be a better solution.]
-#bul[Find the first weight-rank position where they diverge: greedy chose $s_i$, OPT has $o_i$ with $w(o_i) ≥ w(s_i)$.]
-#bul[At that step, greedy had partial set $S'$. It rejected $o_i$, so $S' ∪ \{o_i\} ∉ cal(I)$.]
-#bul[But $|S'| < |"OPT"_{(≤ i)}|$ and both are independent — by (I3), greedy should have been able to add some element from OPT. Contradiction. ∎]
+*Proof sketch ($arrow.double$) — matroids make greedy optimal:*
 
-*Proof sketch ($⇐$) — failing (I3) breaks greedy:*
+#info-box[
+  #bul[Let greedy choose $S={s_1,dots,s_k}$ in decreasing weight order.]
+  #bul[We build an optimal basis $O_i$ containing the greedy prefix
+    ${s_1,dots,s_i}$.]
+  #bul[Start with any optimal basis $O_0$. Suppose $O_(i-1)$ contains
+    $G_(i-1)={s_1,dots,s_(i-1)}$.]
+  #bul[If $s_i in.not O_(i-1)$, then $O_(i-1) union \{s_i\}$ contains a
+    circuit $C$ with $s_i in C$. Since $G_(i-1) union \{s_i\}$ is independent,
+    $C$ contains some $o in O_(i-1) without G_(i-1)$. Removing this $o$ breaks
+    the circuit, so
+    $
+      O_i = O_(i-1) without \{o\} union \{s_i\}
+    $
+    is again a basis.]
+  #bul[Since $G_(i-1) union \{o\} subset.eq O_(i-1)$, the element $o$ was feasible
+    when greedy chose $s_i$. Hence
+    $
+      w(s_i) gt.eq w(o).
+    $]
+  #bul[So replacing $o$ by $s_i$ does not decrease total weight. Thus $O_i$ is
+    still optimal and contains the longer greedy prefix.]
+  #bul[After all steps, an optimal basis contains all of $S$; since both are bases,
+    it equals $S$. Therefore greedy is optimal. $square.filled$]
+]
+
+*Proof sketch ($arrow.l.double$) — failing (I3) breaks greedy:*
+
 #bul[Construct weights that force greedy to pick a smaller maximal set over a larger one — demonstrating sub-optimality.]
 
 #pagebreak()
@@ -777,17 +798,19 @@ Part III develops them further, including circuits and closure.
 ]
 
 *Without exchange:*
+
 #bul[Two maximal independent sets can have different sizes.]
 #bul[Greedy might fill up a small maximal set, missing a larger (better-weight) one.]
 #bul[No way to "repair" the partial solution.]
 
 *With exchange:*
+
 #bul[All maximal independent sets have equal size (= rank of matroid).]
 #bul[Greedy's partial solution is always extendable — it never gets permanently stuck.]
 #bul[Any element missed by greedy could have been included (at the appropriate weight rank), contradicting greedy's sorted order.]
 
 #thm-box("")[
-  A family $cal(I)$ satisfying (I1) and (I2) is a matroid $⇔$ all maximal independent sets have equal cardinality (for every restriction to a subset $A ⊆ E$).
+  A family $cal(I)$ satisfying (I1) and (I2) is a matroid $arrow.l.r.double$ all maximal independent sets have equal cardinality (for every restriction to a subset $A subset.eq E$).
 ]
 
 #pagebreak()
@@ -802,21 +825,39 @@ Part III develops them further, including circuits and closure.
 #slide-header("Partition Matroid: Best From Each Category", part-label: "Part V — Examples")
 
 #defn-box("Partition Matroid")[
-  $E$ partitioned into disjoint classes $E_1, E_2, …, E_m$ with quotas $k_1, …, k_m$. \
-  $cal(I) = \{ S ⊆ E : |S ∩ E_i| ≤ k_i " for all " i \}$.
+  $E$ partitioned into disjoint classes $E_1, E_2, dots, E_m$ with quotas $k_1, dots, k_m$. \
+  $cal(I) = \{ S subset.eq E : |S inter E_i| lt.eq k_i " for all " i \}$.
 ]
 
 #ex-box("Job scheduling by type")[
-  $E = \{"coding jobs"\} ∪ \{"design jobs"\} ∪ \{"testing jobs"\}$, quotas $k_1=2, k_2=1, k_3=2$. \
+  $E = \{"coding jobs"\} union \{"design jobs"\} union \{"testing jobs"\}$, quotas $k_1=2, k_2=1, k_3=2$. \
   Greedy: sort all jobs by value; pick each job if its category quota is not exceeded.
 ]
 
 *Greedy specialisation:*
+
 #bul[Sort all elements by weight descending.]
-#bul[Add element $e ∈ E_i$ if $|S ∩ E_i| < k_i$.]
+#bul[Add element $e in E_i$ if $|S inter E_i| lt k_i$.]
 #bul[This is optimal by the matroid greedy theorem.]
 
 *Application:* Bipartite matching $=$ common independent set of two partition matroids (matroid intersection).
+
+#info-box[
+  Let $G=(L union R, E)$ be bipartite, and take the ground set to be the edges.
+
+  Define two partition matroids on $E$:
+
+  #bul[$M_L$: at most one chosen edge incident to each $u in L$.]
+  #bul[$M_R$: at most one chosen edge incident to each $v in R$.]
+
+  A set $F subset.eq E$ is independent in both iff no two edges in $F$ share
+  a left endpoint or a right endpoint. That is exactly a matching.
+
+  Hence bipartite matching is a *matroid intersection* problem:
+  $
+    F in cal(I)_L inter cal(I)_R.
+  $
+]
 
 #pagebreak()
 
@@ -827,16 +868,17 @@ Part III develops them further, including circuits and closure.
 *Matroid:* $M(G) = (E, cal(I))$ where $E =$ edges, $cal(I) =$ acyclic subsets.
 
 *Generic greedy on $M(G)$:*
+
 #bul[Sort edges by weight descending (for max forest) or ascending (for MST).]
 #bul[Add each edge if it does not create a cycle (independence check via Union-Find).]
 #bul[Output: a maximum-weight spanning forest.]
 
 #ex-box("Small worked example")[
-  $G$: vertices $\{1,2,3,4\}$, edges with weights: $e_{12}=5, e_{23}=3, e_{34}=4, e_{14}=2, e_{13}=6$.
-  Sorted desc: $e_{13}=6, e_{12}=5, e_{34}=4, e_{23}=3, e_{14}=2$. \
-  Step 1: Add $e_{13}$. Step 2: Add $e_{12}$. Step 3: Add $e_{34}$. \
-  Step 4: $e_{23}$ creates cycle $1{-}2{-}3{-}1$ — reject. Step 5: $e_{14}$ creates cycle — reject. \
-  Max forest: $\{e_{13}, e_{12}, e_{34}\}$, weight $= 15$.
+  $G$: vertices $\{1,2,3,4\}$, edges with weights: $e_(12)=5, e_(23)=3, e_(34)=4, e_(14)=2, e_(13)=6$.
+  Sorted desc: $e_(13)=6, e_(12)=5, e_(34)=4, e_(23)=3, e_(14)=2$. \
+  Step 1: Add $e_(13)$. Step 2: Add $e_(12)$. Step 3: Add $e_(34)$. \
+  Step 4: $e_(23)$ creates cycle $1-2-3-1$ — reject. Step 5: $e_(14)$ creates cycle — reject. \
+  Max forest: $\{e_(13), e_(12), e_(34)\}$, weight $= 15$.
 ]
 
 #info-box[For MST: negate weights (or sort ascending). Kruskal's algorithm is exactly this greedy!]
@@ -853,16 +895,18 @@ Part III develops them further, including circuits and closure.
 #slide-header("The Minimum Spanning Tree Problem", part-label: "Part VI — MSTs")
 
 #defn-box("Minimum Spanning Tree")[
-  Given: connected undirected graph $G = (V, E)$, weight $w : E → bb(R)$. \
-  Find: a spanning tree $T ⊆ E$ minimising $sum_(e ∈ T) w(e)$.
+  Given: connected undirected graph $G = (V, E)$, weight $w : E arrow bb(R)$. \
+  Find: a spanning tree $T subset.eq E$ minimising $sum_(e in T) w_(e)$.
 ]
 
 *Matroid connection:*
+
 #bul[Graphic matroid $M(G) = (E, cal(I))$: $E =$ edges, $cal(I) =$ forests.]
 #bul[Bases $=$ spanning trees. MST $=$ minimum-weight basis of $M(G)$.]
 #bul[By the matroid greedy theorem: processing edges in ascending weight order and adding cycle-free edges is optimal.]
 
 *Applications:*
+
 #bul[Network design: cable routing, road construction, pipeline layout.]
 #bul[Clustering: single-linkage hierarchical clustering.]
 #bul[Approximation algorithms: MST gives a 2-approximation for TSP.]
@@ -888,6 +932,7 @@ Part III develops them further, including circuits and closure.
 ]
 
 *Analysis:*
+
 #bul[Independence check: $e_i = (u,v)$ is independent $⇔$ $u$ and $v$ are in different components of $(V,T)$. DSU.find: $O(α(|V|))$.]
 #bul[Total time: $O(|E| log |E|)$ dominated by sorting.]
 #bul[Correctness: direct corollary of the matroid greedy theorem applied to $M(G)$.]
