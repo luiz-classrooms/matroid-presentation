@@ -919,21 +919,21 @@ Part III develops them further, including circuits and closure.
 #slide-header("Kruskal's Algorithm", part-label: "Part VI — MSTs")
 
 #code-block[
-  KRUSKAL(G = (V, E), w : E → ℝ):\
-  Sort edges: e₁, e₂, ..., eₘ  with  w(e₁) ≤ w(e₂) ≤ ... ≤ w(eₘ)\
-  T ← ∅          // growing MST forest\
-  DSU.init(V)    // one component per vertex\
-  for i = 1 to m do:\
-  let eᵢ = (u, v)\
-  if DSU.find(u) ≠ DSU.find(v)  then   // adding eᵢ creates no cycle\
-  T ← T ∪ {eᵢ}\
-  DSU.union(u, v)\
-  return T
+  KRUSKAL($G = (V, E), w : E arrow bb(R)$):\
+  Sort edges: $e_1, e_2, dots, e_m$  with  $w(e_1) lt.eq w(e_2) lt.eq dots lt.eq w(e_m)$\
+  $T arrow.l emptyset$\         // growing MST forest
+  DSU.init($V$)\    // one component per vertex
+  for $i arrow.l 1 dots m$:\
+  #h(2em) let $e_i = (u, v)$\
+  #h(2em) if DSU.find($u$) $eq.not$ DSU.find($v$):\   // adding eᵢ creates no cycle
+  #h(2em)#h(2em) $T arrow.l T union {e_i}$\
+  #h(2em)#h(2em) DSU.union($u, v$)\
+  return $T$
 ]
 
 *Analysis:*
 
-#bul[Independence check: $e_i = (u,v)$ is independent $⇔$ $u$ and $v$ are in different components of $(V,T)$. DSU.find: $O(α(|V|))$.]
+#bul[Independence check: adding $e_i = (u,v)$ is independent $arrow.l.r.double$ $u$ and $v$ are in different components of $(V,T)$. DSU.find: $O(alpha(|V|))$.]
 #bul[Total time: $O(|E| log |E|)$ dominated by sorting.]
 #bul[Correctness: direct corollary of the matroid greedy theorem applied to $M(G)$.]
 
@@ -946,20 +946,21 @@ Part III develops them further, including circuits and closure.
 *Purpose:* Maintain a partition of $V$ into connected components of the growing forest.
 
 #code-block[
-  DSU.init(V):    each vertex forms its own singleton component\
-  DSU.find(u):    return root/representative of the component containing u\
-  DSU.union(u,v): merge the components of u and v\
+  DSU.init($V$):    each vertex forms its own singleton component\
+  DSU.find($u$):    return root/representative of the component containing $u$\
+  DSU.union($u,v$): merge the components of $u$ and $v$\
   \
-  Key invariant: find(u) == find(v)  ⟺  u and v are connected in current T
+  Key invariant: find($u$) = find($v$)  $arrow.l.r.double$  $u$ and $v$ are connected in current $T$
 ]
 
 *Optimisations:*
+
 #bul[*Union by rank:* always attach the shorter tree under the taller — keeps trees shallow.]
 #bul[*Path compression:* during find, flatten all nodes directly to root — future finds faster.]
-#bul[With both: amortised $O(α(n))$ per operation, where $α$ is the inverse Ackermann function.]
-#bul[For all practical purposes: $α(n) ≤ 4$ for $n ≤ 10^{80}$.]
+#bul[With both: amortised $O(alpha(n))$ per operation, where $alpha$ is the inverse Ackermann function.]
+#bul[For all practical purposes: $alpha(n) lt.eq 4$ for $n lt.eq 10^(80)$.]
 
-*In Kruskal's:* $|E|$ find operations + $|V|-1$ union operations $⇒$ total DSU cost $≈ O(|E|)$.
+*In Kruskal's:* $|E|$ find operations + $|V|-1$ union operations $arrow.double$ total DSU cost $approx O(|E|)$.
 
 #pagebreak()
 
@@ -969,32 +970,32 @@ Part III develops them further, including circuits and closure.
 
 #two-col(
   [
-    *Graph $G$:* 5 vertices $\{A,B,C,D,E\}$, 7 edges.
+    *Graph $G$:* 5 vertices ${A,B,C,D,E}$, 7 edges.
 
     #table(
       columns: (auto, auto, auto),
       stroke: med-gray,
       fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-gray },
       table.header(text(fill: white)[*Edge*], text(fill: white)[*Weight*], text(fill: white)[*Action*]),
-      [C–E], [2], [Add ✓],
-      [A–B], [4], [Add ✓],
-      [D–E], [6], [Add ✓],
-      [B–E], [7], [Add ✓],
-      [A–D], [8], [Skip (cycle)],
-      [B–C], [8], [Skip (cycle)],
-      [B–D], [11], [Skip (cycle)],
+      [$C–E$], [2], [Add $checkmark$],
+      [$A–B$], [4], [Add $checkmark$],
+      [$D–E$], [6], [Add $checkmark$],
+      [$B–E$], [7], [Add $checkmark$],
+      [$A–D$], [8], [Skip (cycle)],
+      [$B–C$], [8], [Skip (cycle)],
+      [$B–D$], [11], [Skip (cycle)],
     )
   ],
   [
-    *MST found:* $T = \{C{-}E,\ A{-}B,\ D{-}E,\ B{-}E\}$
+    *MST found:* $T = {C-E, A-B, D-E, B-E}$
 
     Total weight $= 2 + 4 + 6 + 7 = bold(19)$
 
     #block(fill: gold-light, stroke: (paint: gold, thickness: 1pt), inset: 8pt, radius: 4pt)[
-      After adding $C{-}E$: components $\{C,E\}, \{A\},\{B\},\{D\}$. \
-      After $A{-}B$: $\{A,B\}$, $\{C,E\}$, $\{D\}$. \
-      After $D{-}E$: $\{C,D,E\}$, $\{A,B\}$. \
-      After $B{-}E$: $\{A,B,C,D,E\}$ — done!
+      After adding $C-E$: components ${C,E}, {A},{B},{D}$. \
+      After $A-B$: ${A,B}$, ${C,E}$, ${D}$. \
+      After $D-E$: ${C,D,E}$, ${A,B}$. \
+      After $B-E$: ${A,B,C,D,E}$ — done!
     ]
   ],
 )
@@ -1006,23 +1007,27 @@ Part III develops them further, including circuits and closure.
 #slide-header("Prim's Algorithm", part-label: "Part VI — MSTs")
 
 #code-block[
-  PRIM(G = (V, E), w : E → ℝ, start s ∈ V):\
-  key[v] ← ∞  for all v ∈ V;   key[s] ← 0\
-  parent[v] ← NIL  for all v ∈ V\
-  Q ← min-priority queue containing all vertices, keyed by key[·]\
-  while Q ≠ ∅ do:\
-  u ← EXTRACT-MIN(Q)\
-  for each neighbour v of u do:\
-  if v ∈ Q  and  w(u,v) < key[v]  then\
-  parent[v] ← u\
-  key[v] ← w(u,v)         ▷ DECREASE-KEY in Q\
-  return { (parent[v], v) : v ≠ s }
+  PRIM($G = (V, E), w : E arrow bb(R), s in V$):\
+  key[$v$] $arrow.l infinity$  for all $v in V$\
+  parent[$v$] $arrow.l$ NIL  for all $v in V$\
+  key[$s$] $arrow.l 0$\
+  $Q arrow.l$ min-priority queue containing all vertices, keyed by key[·]\
+  while $Q eq.not emptyset$:\
+  #h(2em) $u arrow.l$ EXTRACT-MIN($Q$)\
+  #h(2em) for each neighbour $v$ of $u$:\
+  #h(2em)#h(2em) if $v in Q$  and  $w(u,v) lt$ key[$v$]:\
+  #h(2em)#h(2em)#h(2em) parent[$v$] $arrow.l u$\
+  #h(2em)#h(2em)#h(2em) key[$v$] $arrow.l w(u,v)$\
+  #h(2em)#h(2em)#h(2em) DECREASE-KEY($Q$, $v$, key[$v$])\
+  return { (parent[$v$], $v$) : $v in V without {s}$ }
 ]
 
 *Analysis:*
-#bul[Time: $O(|E| log |V|)$ with binary heap; $O(|E| + |V| log |V|)$ with Fibonacci heap.]
-#bul[Prim grows a *single tree* from $s$, always adding the cheapest edge to a new vertex.]
-#bul[Correctness: justified by the *cut property* — the minimum-weight crossing edge of any cut is in some MST.]
+
+#bul[Assumes $G$ is connected; otherwise this returns a spanning tree only for the component reachable from $s$.]
+#bul[Time: $O(|E| log |V|)$ with a binary heap; $O(|E| + |V| log |V|)$ with a Fibonacci heap.]
+#bul[Prim grows a *single tree* from $s$, repeatedly adding the cheapest edge from the current tree to a new vertex.]
+#bul[Correctness: by the *cut property* — at each step, the cheapest edge crossing from the current tree to the remaining vertices is safe.]
 
 #pagebreak()
 
@@ -1041,10 +1046,12 @@ Part III develops them further, including circuits and closure.
 ]
 
 *Connection to matroid structure:*
-#bul[Cut property $↔$ exchange axiom: a sub-optimal tree can be augmented.]
-#bul[Cycle property $↔$ circuit elimination: the heaviest circuit edge is excluded.]
+
+#bul[Cut property $arrow.l.r.double$ exchange axiom: a sub-optimal tree can be augmented.]
+#bul[Cycle property $arrow.l.r.double$ circuit elimination: the heaviest circuit edge is excluded.]
 
 *Algorithmic use:*
+
 #bul[*Kruskal* uses the cycle property: skip edge if it creates a cycle.]
 #bul[*Prim* uses the cut property: always take the cheapest edge out of the current tree.]
 
@@ -1069,7 +1076,9 @@ Part III develops them further, including circuits and closure.
 )
 
 #v(0.3em)
-#info-box[Both produce a minimum spanning tree. Kruskal aligns _directly_ with the graphic matroid greedy algorithm; Prim's matroid interpretation is more implicit.]
+#info-box[
+  Both produce a minimum spanning tree. Kruskal aligns _directly_ with the graphic matroid greedy algorithm; Prim's matroid interpretation is more implicit.
+]
 
 #pagebreak()
 
@@ -1084,19 +1093,20 @@ Part III develops them further, including circuits and closure.
 
 #defn-box("Matroid Intersection")[
   Given two matroids $M_1 = (E, cal(I)_1)$ and $M_2 = (E, cal(I)_2)$ on the same ground set, \
-  find a maximum-weight set $S ∈ cal(I)_1 ∩ cal(I)_2$.
+  find a maximum-weight set $S in cal(I)_1 inter cal(I)_2$.
 ]
 
 #ex-box("Bipartite Matching")[
-  $G = (U ∪ V, E)$. A matching $=$ edge set where each vertex appears $≤ 1$ time. \
-  $M_1$: partition matroid on $U$ — at most one edge per $u ∈ U$. \
-  $M_2$: partition matroid on $V$ — at most one edge per $v ∈ V$. \
+  $G = (U union V, E)$. A matching $=$ edge set where each vertex appears $≤ 1$ time. \
+  $M_1$: partition matroid on $U$ — at most one edge per $u in U$. \
+  $M_2$: partition matroid on $V$ — at most one edge per $v in V$. \
   Maximum matching $=$ max common independent set of $M_1$ and $M_2$.
 ]
 
 *Complexity:*
+
 #bul[Single matroid: greedy, $O(|E| log |E|)$.]
-#bul[Matroid intersection: solvable in polytime via augmenting paths, $O(|E|^{1.5} ⋅ T_{"oracle"})$.]
+#bul[Matroid intersection: solvable in polytime via augmenting paths, $O(|E|^(1.5) ⋅ T_("oracle"))$.]
 #bul[Three-matroid intersection: NP-hard in general!]
 
 #pagebreak()
@@ -1107,15 +1117,17 @@ Part III develops them further, including circuits and closure.
 
 #defn-box("Submodular Function")[
   $f : 2^E → bb(R)$ is *submodular* if for all $A, B ⊆ E$: \
-  $f(A ∪ B) + f(A ∩ B) ≤ f(A) + f(B)$ \
+  $f(A union B) + f(A inter B) lt.eq f(A) + f(B)$ \
   (equivalently: $f$ has _diminishing marginal returns_).
 ]
 
 *Connection to matroids:*
+
 #bul[The rank function $r$ of any matroid is submodular.]
-#bul[Maximising a monotone submodular function subject to a matroid constraint: greedy achieves a $(1 - 1/e) ≈ 0.632$ approximation!]
+#bul[Maximising a monotone submodular function subject to a matroid constraint: greedy achieves a $(1 - 1/e) approx 0.632$ approximation!]
 
 *Applications:*
+
 #bul[*Influence maximisation* in social networks (viral marketing).]
 #bul[*Feature selection* in machine learning.]
 #bul[*Sensor placement* for maximum coverage.]
@@ -1130,12 +1142,13 @@ Part III develops them further, including circuits and closure.
 *What if we relax matroid axioms?*
 
 #defn-box("Greedoid")[
-  $(E, cal(F))$ with $∅ ∈ cal(F)$ and: for $A, B ∈ cal(F)$ with $|A| > |B|$,
-  $∃ e ∈ A$ s.t. $B ∪ \{e\} ∈ cal(F)$. \
+  $(E, cal(F))$ with $emptyset in cal(F)$ and: for $A, B in cal(F)$ with $|A| gt |B|$,
+  $exists e in A$ s.t. $B union {e} in cal(F)$. \
   Heredity (I2) is *not required*.
 ]
 
 *Examples of greedoids:*
+
 #bul[Branching greedoids (rooted spanning trees explored in BFS order).]
 #bul[Ear decompositions of graphs.]
 #bul[Gaussian elimination sequences.]
@@ -1153,22 +1166,24 @@ Part III develops them further, including circuits and closure.
 #footer-bar
 #slide-header("Applications of Matroid Theory", part-label: "Part VII — Beyond MSTs")
 
-#table(
-  columns: (auto, auto),
-  stroke: med-gray,
-  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
-  table.header(text(fill: white)[*Application Domain*], text(fill: white)[*Matroid concept used*]),
-  [Network design (cable, roads)], [Graphic matroid — MST],
-  [Bipartite matching], [Matroid intersection],
-  [Job scheduling], [Partition / transversal matroids],
-  [Error-correcting codes], [Linear matroids over finite fields],
-  [VLSI circuit layout], [Linear matroids, connectivity],
-  [Influence / viral marketing], [Submodular optimisation over matroids],
-  [Approximation algorithms (TSP)], [MST as 2-approximation],
-  [Phylogenetics], [MST for tree reconstruction],
-  [Image segmentation], [Graph-cut / matroid methods],
-  [Combinatorial auctions], [Submodular welfare maximisation],
-)
+#align(center)[
+  #table(
+    columns: (auto, auto),
+    stroke: med-gray,
+    fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
+    table.header(text(fill: white)[*Application Domain*], text(fill: white)[*Matroid concept used*]),
+    [Network design (cable, roads)], [Graphic matroid — MST],
+    [Bipartite matching], [Matroid intersection],
+    [Job scheduling], [Partition / transversal matroids],
+    [Error-correcting codes], [Linear matroids over finite fields],
+    [VLSI circuit layout], [Linear matroids, connectivity],
+    [Influence / viral marketing], [Submodular optimisation over matroids],
+    [Approximation algorithms (TSP)], [MST as 2-approximation],
+    [Phylogenetics], [MST for tree reconstruction],
+    [Image segmentation], [Graph-cut / matroid methods],
+    [Combinatorial auctions], [Submodular welfare maximisation],
+  )
+]
 
 #pagebreak()
 
@@ -1231,25 +1246,92 @@ Part III develops them further, including circuits and closure.
 #footer-bar
 #slide-header("Appendix: Equivalent Axiom Systems", part-label: "Appendix")
 
-A matroid can be equivalently defined via any of the following systems:
+A matroid can be specified through several equivalent “lenses”.
+Each lens emphasizes a different kind of structure.
 
-#table(
-  columns: (auto, auto),
-  stroke: med-gray,
-  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
-  table.header(text(fill: white)[*System*], text(fill: white)[*Key axiom*]),
-  [Independent sets $cal(I)$], [(I3) Exchange: smaller $cal(I)$-set can be augmented from larger],
+#v(0.6em)
 
-  [Bases $cal(B)$],
-  [(B2) Basis exchange: $∀ B_1,B_2 ∈ cal(B),\ ∀ e ∈ B_1 ∖ B_2,\ ∃ f ∈ B_2 ∖ B_1 : (B_1 ∖ \{e\}) ∪ \{f\} ∈ cal(B)$],
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 0.8em,
 
-  [Circuits $cal(C)$], [(C3) Elimination: $C_1 ≠ C_2,\ e ∈ C_1 ∩ C_2 ⇒ ∃ C_3 ⊆ (C_1 ∪ C_2) ∖ \{e\}$],
+  block(
+    fill: light-blue,
+    radius: 6pt,
+    inset: 0.75em,
+  )[
+    *Independent sets* $cal(I)$
 
-  [Rank $r$], [(R3) Submodularity: $r(A ∪ B) + r(A ∩ B) ≤ r(A) + r(B)$],
+    #v(0.3em)
+    Main idea: feasible sets closed under taking subsets.
 
-  [Closure $"cl"$], [(CL4) Mac Lane: $e ∉ "cl"(A),\ e ∈ "cl"(A ∪ \{f\}) ⇒ f ∈ "cl"(A ∪ \{e\})$],
+    #v(0.3em)
+    *Exchange:* a smaller independent set can be augmented from a larger one.
+  ],
+
+  block(
+    fill: light-blue,
+    radius: 6pt,
+    inset: 0.75em,
+  )[
+    *Bases* $cal(B)$
+
+    #v(0.3em)
+    Main idea: maximal feasible sets all have the same size.
+
+    #v(0.3em)
+    *Basis exchange:* swapping one element from one basis with a suitable element from another gives a basis again.
+  ],
+
+  block(
+    fill: light-blue,
+    radius: 6pt,
+    inset: 0.75em,
+  )[
+    *Circuits* $cal(C)$
+
+    #v(0.3em)
+    Main idea: minimal dependent sets.
+
+    #v(0.3em)
+    *Elimination:* two circuits sharing an element imply another circuit after eliminating that element.
+  ],
+
+  block(
+    fill: light-blue,
+    radius: 6pt,
+    inset: 0.75em,
+  )[
+    *Rank* $r$
+
+    #v(0.3em)
+    Main idea: dimension-like size of the largest independent subset.
+
+    #v(0.3em)
+    *Submodularity:*
+
+    $r(A union B) + r(A inter B) lt.eq r(A) + r(B)$
+  ],
 )
 
-#v(0.5em)
-#bul[Each system has strengths: circuits for graphic matroids, rank for linear algebra, bases for optimisation.]
-#bul[Proving all systems equivalent is a rewarding exercise — each equivalence is constructive.]
+#v(0.8em)
+
+#block(
+  fill: light-blue,
+  radius: 6pt,
+  inset: 0.75em,
+)[
+  *Closure* $"cl"$
+
+  Main idea: span-like operator: which elements are forced by a set?
+
+  #v(0.3em)
+  *Mac Lane–Steinitz exchange:*
+
+  $e in.not "cl"(A), e in "cl"(A union {f}) arrow.double f in "cl"(A union {e})$
+]
+
+#v(0.6em)
+
+#bul[Different axiom systems are useful in different settings: circuits for graphic matroids, rank for linear algebra, bases for optimisation.]
+#bul[The equivalences are constructive: each system can be converted into the others.]
