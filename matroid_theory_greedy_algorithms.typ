@@ -185,21 +185,43 @@
 // SLIDE 1: Title Slide
 // ============================================================================
 #page(background: rect(fill: dark-blue, width: 100%, height: 100%))[
-  #align(center + horizon)[
-    #text(fill: white, size: 34pt, weight: "bold")[Matroid Theory] \
-    #v(0.2em)
-    #text(fill: med-gray, size: 16pt)[from First Principles & Its Role in Greedy Algorithms]
-    #v(0.8em)
-    #line(length: 55%, stroke: (paint: gold, thickness: 2pt))
-    #v(0.5em)
-    #text(fill: rgb("#93c5fd"), size: 13pt)[
-      A rigorous yet accessible introduction \
-      for advanced undergraduates and early graduate students
+  // Ghost text background decoration
+  #place(top + right, dx: 0pt, dy: -10pt)[
+    #text(fill: rgb("#1a2540"), size: 200pt, weight: "bold",
+      font: ("Libertinus Serif", "New Computer Modern")
+    )[M]
+  ]
+  // Gold top stripe
+  #place(top)[
+    #block(width: 100%, height: 4pt, fill: gold)
+  ]
+  #align(left + horizon)[
+    #pad(left: 3cm, right: 3cm)[
+      #text(fill: rgb("#94a3b8"), size: 10pt, tracking: 3pt)[#upper("Combinatorics & Algorithms")]
+      #v(1.2em)
+      #text(fill: white, size: 38pt, weight: "bold",
+        font: ("Libertinus Serif", "New Computer Modern")
+      )[Matroid Theory]
+      #v(0.25em)
+      #text(fill: rgb("#a5b4fc"), size: 17pt)[
+        from First Principles & Its Role in Greedy Algorithms
+      ]
+      #v(1.2em)
+      #block(width: 60pt, height: 2pt, fill: gold)
+      #v(1.2em)
+      #text(fill: rgb("#cbd5e1"), size: 11.5pt)[
+        A rigorous yet accessible introduction \
+        for advanced undergraduates and early graduate students
+      ]
+      #v(1em)
+      #text(fill: rgb("#64748b"), size: 9.5pt)[
+        Topics: Matroid Axioms · Greedy Theorem · Graphic Matroids · MST Algorithms
+      ]
     ]
-    #v(1em)
-    #text(fill: med-gray, size: 10pt)[
-      Topics: Matroid Axioms · Greedy Theorem · Graphic Matroids · MST Algorithms
-    ]
+  ]
+  // Bottom stripe
+  #place(bottom)[
+    #block(width: 100%, height: 3pt, fill: light-blue)
   ]
 ]
 
