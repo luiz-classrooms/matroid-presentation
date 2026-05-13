@@ -27,6 +27,7 @@
 #set par(justify: false, leading: 0.6em)
 
 // ─── Colour palette ──────────────────────────────────────────────────────────
+#let accent = rgb("#c48a2c")
 #let dark-blue = rgb("#1a2e4a")
 #let mid-blue = rgb("#2563a8")
 #let light-blue = rgb("#dbeafe")
@@ -160,12 +161,24 @@
 // Part divider slide
 #let part-slide(number, title, subtitle) = {
   page(background: rect(fill: dark-blue, width: 100%, height: 100%))[
+    #place(top + left, dx: 0pt, dy: 0pt)[
+      #block(width: 100%, height: 5pt, fill: accent)
+    ]
+    #place(bottom + right, dx: -0.9cm, dy: -0.75cm)[
+      #text(fill: rgb("#1b4874"), size: 120pt, weight: "bold")[#number]
+    ]
     #align(center + horizon)[
-      #text(fill: gold, size: 14pt, weight: "bold")[Part #number]
-      #v(0.5em)
-      #text(fill: white, size: 28pt, weight: "bold")[#title]
-      #v(0.3em)
-      #text(fill: med-gray, size: 16pt)[#subtitle]
+      #block(width: 68%, fill: none, inset: 0pt)[
+        #align(center)[
+          #text(fill: accent, size: 11pt, weight: "bold", tracking: 2pt)[Part #number]
+          #v(0.8em)
+          #block(width: 72pt, height: 2.5pt, fill: accent, radius: 3pt)
+          #v(0.95em)
+          #text(fill: white, size: 30pt, weight: "bold")[#title]
+          #v(0.45em)
+          #text(fill: rgb("#cbd5e1"), size: 15pt)[#subtitle]
+        ]
+      ]
     ]
   ]
 }
