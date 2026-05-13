@@ -1,47 +1,50 @@
 // ============================================================================
-// Matroid Theory from First Principles and Its Role in Greedy Algorithms
-// A slide presentation in Typst
-//
-// Compile with:  typst compile matroid_theory_greedy_algorithms.typ
-//
-// Structure:
-//   Part I   – Motivation
-//   Part II  – First Principles (axioms, examples)
-//   Part III – Bases, Rank, Circuits, Closure
-//   Part IV  – Greedy Algorithms and Matroids
-//   Part V   – Classical Examples
-//   Part VI  – Minimum Spanning Trees
-//   Part VII – Beyond MSTs
-//   Part VIII– Summary and References
+// Dark theme redesign: deep ink/charcoal surfaces, navy panels, and luminous teal-blue accents.
+// Typography is upgraded to Inter with stronger hierarchy, larger readable text, and tighter rhythm.
+// Boxes, tables, code blocks, headers, section dividers, and footers now use premium dark surfaces.
+// Layout spacing, borders, separators, and emphasis colors are tuned for professional technical slides.
 // ============================================================================
 
 // ─── Page setup ──────────────────────────────────────────────────────────────
 #set page(
   paper: "a4",
   flipped: true,
-  margin: (top: 1.8cm, bottom: 0.8cm, left: 1.2cm, right: 1.2cm),
-  background: rect(fill: white, width: 100%, height: 100%),
+  margin: (top: 1.55cm, bottom: 0.9cm, left: 1.15cm, right: 1.15cm),
+  background: rect(fill: rgb("#070B14"), width: 100%, height: 100%),
 )
 
-#set text(font: ("Libertinus Serif", "New Computer Modern"), size: 12pt, fill: rgb("#334155"))
-#set par(justify: false, leading: 0.6em)
+#set text(font: ("Inter", "Noto Sans", "Arial"), size: 11.2pt, fill: rgb("#E8EEF8"))
+#set par(justify: false, leading: 0.66em)
+#set enum(spacing: 0.35em)
+#set list(spacing: 0.32em)
 
 // ─── Colour palette ──────────────────────────────────────────────────────────
-#let accent = rgb("#c48a2c")
-#let dark-blue = rgb("#1a2e4a")
-#let mid-blue = rgb("#2563a8")
-#let light-blue = rgb("#dbeafe")
-#let gold = rgb("#d4a017")
-#let gold-light = rgb("#fef3c7")
-#let green = rgb("#166534")
-#let green-light = rgb("#dcfce7")
-#let red-dark = rgb("#991b1b")
-#let red-light = rgb("#fee2e2")
-#let light-gray = rgb("#f1f5f9")
-#let med-gray = rgb("#94a3b8")
-#let dark-gray = rgb("#334155")
-#let code-bg = rgb("#1e293b")
-#let code-fg = rgb("#e2e8f0")
+#let bg = rgb("#070B14")
+#let bg-soft = rgb("#0B1220")
+#let surface = rgb("#101827")
+#let surface-2 = rgb("#151F31")
+#let surface-3 = rgb("#1C2940")
+#let border = rgb("#2B3B55")
+#let text-main = rgb("#E8EEF8")
+#let text-soft = rgb("#CBD5E1")
+#let text-muted = rgb("#8EA3BD")
+#let accent = rgb("#38BDF8")
+#let accent-2 = rgb("#2DD4BF")
+#let accent-3 = rgb("#A78BFA")
+#let dark-blue = rgb("#0B1220")
+#let mid-blue = rgb("#38BDF8")
+#let light-blue = rgb("#0E243A")
+#let gold = rgb("#F59E0B")
+#let gold-light = rgb("#261A08")
+#let green = rgb("#34D399")
+#let green-light = rgb("#0E241D")
+#let red-dark = rgb("#FB7185")
+#let red-light = rgb("#2B111A")
+#let light-gray = rgb("#172033")
+#let med-gray = rgb("#3A4B64")
+#let dark-gray = rgb("#CBD5E1")
+#let code-bg = rgb("#080D18")
+#let code-fg = rgb("#DDEAFE")
 
 // ─── Reusable macros ─────────────────────────────────────────────────────────
 
@@ -49,30 +52,30 @@
 #let slide-header(title, part-label: none) = {
   block(
     width: 100%,
-    fill: dark-blue,
-    inset: (x: 10pt, y: 8pt),
-    radius: (top-left: 6pt, top-right: 6pt),
+    fill: surface,
+    stroke: (paint: border, thickness: 0.7pt),
+    inset: (x: 12pt, y: 8pt),
+    radius: 7pt,
     below: 0pt,
   )[
     #if part-label != none [
-      #text(fill: gold, size: 9pt, weight: "bold")[#part-label] \
+      #text(fill: accent-2, size: 8.4pt, weight: "bold", tracking: 1.5pt)[#upper(part-label)] \
     ]
-    #text(fill: white, size: 18pt, weight: "bold")[#title]
+    #text(fill: text-main, size: 17.5pt, weight: "bold")[#title]
   ]
-  // Gold accent stripe
-  block(width: 100%, height: 3pt, fill: gold, below: 8pt)
+  block(width: 100%, height: 2.2pt, fill: accent, below: 10pt)
 }
 
 // Definition box
 #let defn-box(title, body-content) = block(
   width: 100%,
   fill: light-blue,
-  stroke: (paint: mid-blue, thickness: 1.2pt),
-  inset: 10pt,
-  radius: 5pt,
+  stroke: (paint: mid-blue, thickness: 0.9pt),
+  inset: 11pt,
+  radius: 7pt,
   below: 8pt,
 )[
-  #text(fill: mid-blue, weight: "bold")[Definition: #title] \
+  #text(fill: accent, weight: "bold")[Definition: #title] \
   #body-content
 ]
 
@@ -80,9 +83,9 @@
 #let thm-box(title, body-content) = block(
   width: 100%,
   fill: gold-light,
-  stroke: (paint: gold, thickness: 1.2pt),
-  inset: 10pt,
-  radius: 5pt,
+  stroke: (paint: gold, thickness: 0.9pt),
+  inset: 11pt,
+  radius: 7pt,
   below: 8pt,
 )[
   #text(fill: gold, weight: "bold")[Theorem: #title] \
@@ -93,9 +96,9 @@
 #let ex-box(title, body-content) = block(
   width: 100%,
   fill: green-light,
-  stroke: (paint: green, thickness: 1.2pt),
-  inset: 10pt,
-  radius: 5pt,
+  stroke: (paint: green, thickness: 0.9pt),
+  inset: 11pt,
+  radius: 7pt,
   below: 8pt,
 )[
   #text(fill: green, weight: "bold")[Example: #title] \
@@ -106,9 +109,9 @@
 #let warn-box(title, body-content) = block(
   width: 100%,
   fill: red-light,
-  stroke: (paint: red-dark, thickness: 1.2pt),
-  inset: 10pt,
-  radius: 5pt,
+  stroke: (paint: red-dark, thickness: 0.9pt),
+  inset: 11pt,
+  radius: 7pt,
   below: 8pt,
 )[
   #text(fill: red-dark, weight: "bold")[Non-Example: #title] \
@@ -118,10 +121,10 @@
 // Info / highlight box
 #let info-box(body-content) = block(
   width: 100%,
-  fill: light-blue,
-  stroke: (paint: mid-blue, thickness: 1pt),
-  inset: 10pt,
-  radius: 5pt,
+  fill: surface-2,
+  stroke: (paint: accent-2, thickness: 0.75pt),
+  inset: 11pt,
+  radius: 7pt,
   below: 8pt,
 )[#body-content]
 
@@ -129,19 +132,19 @@
 #let code-block(code-text) = block(
   width: 100%,
   fill: code-bg,
-  stroke: (paint: med-gray, thickness: 0.8pt),
+  stroke: (paint: border, thickness: 0.8pt),
   inset: 10pt,
-  radius: 4pt,
+  radius: 7pt,
   below: 8pt,
 )[
-  #text(fill: code-fg, font: "Fira Code", size: 10pt)[
+  #text(fill: code-fg, font: ("Fira Code", "Noto Sans Mono", "DejaVu Sans Mono"), size: 9.4pt)[
     #code-text
   ]
 ]
 
 // Bullet items
-#let bul(content) = [• #content \ ]
-#let bul2(content) = [#h(1.5em) – #content \ ]
+#let bul(content) = [#text(fill: accent-2, weight: "bold")[•] #content \ ]
+#let bul2(content) = [#h(1.5em) #text(fill: accent, weight: "bold")[–] #content \ ]
 
 // Math display
 #let mth(content) = block(inset: (left: 1.5em), below: 4pt)[
@@ -153,30 +156,33 @@
   let right-frac = (100% - left-frac)
   grid(
     columns: (left-frac, right-frac),
-    gutter: 1em,
+    gutter: 1.05em,
     left, right,
   )
 }
 
 // Part divider slide
 #let part-slide(number, title, subtitle) = {
-  page(background: rect(fill: dark-blue, width: 100%, height: 100%))[
+  page(background: rect(fill: bg, width: 100%, height: 100%))[
     #place(top + left, dx: 0pt, dy: 0pt)[
       #block(width: 100%, height: 5pt, fill: accent)
     ]
+    #place(top + left, dx: 0pt, dy: 5pt)[
+      #block(width: 38%, height: 2pt, fill: accent-2)
+    ]
     #place(bottom + right, dx: -0.9cm, dy: -0.75cm)[
-      #text(fill: rgb("#1b4874"), size: 120pt, weight: "bold")[#number]
+      #text(fill: rgb("#111A2B"), size: 128pt, weight: "bold")[#number]
     ]
     #align(center + horizon)[
-      #block(width: 68%, fill: none, inset: 0pt)[
+      #block(width: 72%, fill: surface, stroke: (paint: border, thickness: 0.8pt), inset: 32pt, radius: 14pt)[
         #align(center)[
-          #text(fill: accent, size: 11pt, weight: "bold", tracking: 2pt)[Part #number]
-          #v(0.8em)
-          #block(width: 72pt, height: 2.5pt, fill: accent, radius: 3pt)
-          #v(0.95em)
-          #text(fill: white, size: 30pt, weight: "bold")[#title]
+          #text(fill: accent-2, size: 10pt, weight: "bold", tracking: 2.5pt)[Part #number]
+          #v(0.9em)
+          #block(width: 84pt, height: 3pt, fill: accent, radius: 3pt)
+          #v(1.0em)
+          #text(fill: text-main, size: 31pt, weight: "bold")[#title]
           #v(0.45em)
-          #text(fill: rgb("#cbd5e1"), size: 15pt)[#subtitle]
+          #text(fill: text-soft, size: 15pt)[#subtitle]
         ]
       ]
     ]
@@ -185,8 +191,8 @@
 
 // ─── Page footer macro ───────────────────────────────────────────────────────
 #let footer-bar = place(bottom)[
-  #block(width: 100%, height: 18pt, fill: dark-blue, inset: (x: 10pt, y: 3pt))[
-    #text(fill: med-gray, size: 7pt)[
+  #block(width: 100%, height: 18pt, fill: bg-soft, inset: (x: 12pt, y: 3pt))[
+    #text(fill: text-muted, size: 7pt)[
       Matroid Theory & Greedy Algorithms
       #h(1fr)
       #context counter(page).display()
@@ -197,44 +203,45 @@
 // ============================================================================
 // SLIDE 1: Title Slide
 // ============================================================================
-#page(background: rect(fill: dark-blue, width: 100%, height: 100%))[
+#page(background: rect(fill: bg, width: 100%, height: 100%))[
   // Ghost text background decoration
-  #place(top + right, dx: 0pt, dy: -10pt)[
-    #text(fill: rgb("#1a2540"), size: 200pt, weight: "bold",
-      font: ("Libertinus Serif", "New Computer Modern")
-    )[M]
+  #place(top + right, dx: -18pt, dy: -20pt)[
+    #text(fill: rgb("#10192A"), size: 210pt, weight: "bold")[M]
   ]
-  // Gold top stripe
+  // Accent top stripes
   #place(top)[
-    #block(width: 100%, height: 4pt, fill: gold)
+    #block(width: 100%, height: 5pt, fill: accent)
+  ]
+  #place(top + left, dx: 0pt, dy: 5pt)[
+    #block(width: 45%, height: 2pt, fill: accent-2)
   ]
   #align(left + horizon)[
     #pad(left: 3cm, right: 3cm)[
-      #text(fill: rgb("#94a3b8"), size: 10pt, tracking: 3pt)[#upper("Combinatorics & Algorithms")]
-      #v(1.2em)
-      #text(fill: white, size: 38pt, weight: "bold",
-        font: ("Libertinus Serif", "New Computer Modern")
-      )[Matroid Theory]
-      #v(0.25em)
-      #text(fill: rgb("#a5b4fc"), size: 17pt)[
-        from First Principles & Its Role in Greedy Algorithms
-      ]
-      #v(1.2em)
-      #block(width: 60pt, height: 2pt, fill: gold)
-      #v(1.2em)
-      #text(fill: rgb("#cbd5e1"), size: 11.5pt)[
-        A rigorous yet accessible introduction \
-        for advanced undergraduates and early graduate students
-      ]
-      #v(1em)
-      #text(fill: rgb("#64748b"), size: 9.5pt)[
-        Topics: Matroid Axioms · Greedy Theorem · Graphic Matroids · MST Algorithms
+      #block(width: 74%, fill: surface, stroke: (paint: border, thickness: 0.85pt), inset: 28pt, radius: 14pt)[
+        #text(fill: text-muted, size: 10pt, weight: "bold", tracking: 3pt)[#upper("Combinatorics & Algorithms")]
+        #v(1.25em)
+        #text(fill: text-main, size: 40pt, weight: "bold")[Matroid Theory]
+        #v(0.25em)
+        #text(fill: accent-3, size: 17pt)[
+          from First Principles & Its Role in Greedy Algorithms
+        ]
+        #v(1.25em)
+        #block(width: 72pt, height: 3pt, fill: accent, radius: 3pt)
+        #v(1.25em)
+        #text(fill: text-soft, size: 11.5pt)[
+          A rigorous yet accessible introduction \
+          for advanced undergraduates and early graduate students
+        ]
+        #v(1em)
+        #text(fill: text-muted, size: 9.5pt)[
+          Topics: Matroid Axioms · Greedy Theorem · Graphic Matroids · MST Algorithms
+        ]
       ]
     ]
   ]
   // Bottom stripe
   #place(bottom)[
-    #block(width: 100%, height: 3pt, fill: light-blue)
+    #block(width: 100%, height: 3pt, fill: surface-3)
   ]
 ]
 
@@ -256,7 +263,7 @@
   below: 10pt,
 )[
   #align(center)[
-    #text(size: 15pt, weight: "bold", fill: dark-blue)[
+    #text(size: 15pt, weight: "bold", fill: text-main)[
       When does greedily choosing the locally best option yield a globally optimal solution?
     ]
   ]
@@ -301,9 +308,9 @@
 #table(
   columns: (auto, auto, auto, auto),
   stroke: med-gray,
-  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-gray },
+  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { surface } else { surface-2 },
   table.header(
-    text(fill: white)[*Item*], text(fill: white)[*Weight*], text(fill: white)[*Value*], text(fill: white)[*Val/Wt*]
+    text(fill: text-main)[*Item*], text(fill: text-main)[*Weight*], text(fill: text-main)[*Value*], text(fill: text-main)[*Val/Wt*]
   ),
   [A], [6], [12], [2.0],
   [B], [5], [9], [1.8],
@@ -329,9 +336,9 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 #table(
   columns: (auto, auto, auto),
   stroke: med-gray,
-  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
+  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { surface } else { surface-2 },
   table.header(
-    text(fill: white)[*Setting*], text(fill: white)[*Ground Set $E$*], text(fill: white)[*Independent Sets $cal(I)$*]
+    text(fill: text-main)[*Setting*], text(fill: text-main)[*Ground Set $E$*], text(fill: text-main)[*Independent Sets $cal(I)$*]
   ),
   [Choose $lt.eq k$ items], [Items], [Subsets of size $lt.eq k$],
   [Linear algebra], [Vectors], [Linearly independent subsets],
@@ -372,8 +379,8 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
 #table(
   columns: (auto, auto, auto),
   stroke: med-gray,
-  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
-  table.header(text(fill: white)[*Axiom*], text(fill: white)[*Name*], text(fill: white)[*Informal Meaning*]),
+  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { surface } else { surface-2 },
+  table.header(text(fill: text-main)[*Axiom*], text(fill: text-main)[*Name*], text(fill: text-main)[*Informal Meaning*]),
   [(I1)], [Non-emptiness], [Choosing nothing is always feasible],
   [(I2)], [Heredity], [Subsets of feasible sets are feasible],
   [(I3)], [Exchange], [Smaller independent sets can be augmented],
@@ -396,7 +403,7 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
   #align(center)[#text(
     size: 15pt,
     weight: "bold",
-    fill: mid-blue,
+    fill: text-main,
   )[(I1)  The empty set is independent: $emptyset in cal(I)$]]
 ]
 
@@ -425,7 +432,7 @@ Both examples involve a collection of _feasible subsets_. The key is their struc
   radius: 6pt,
   below: 10pt,
 )[
-  #align(center)[#text(size: 15pt, weight: "bold", fill: mid-blue)[
+  #align(center)[#text(size: 15pt, weight: "bold", fill: text-main)[
     (I2)  If $A in cal(I)$ and $B subset.eq A$, then $B in cal(I)$
   ]]
 ]
@@ -461,7 +468,7 @@ Subsets of independent sets are independent. Independence is _downward-closed_.
   radius: 6pt,
   below: 8pt,
 )[
-  #align(center)[#text(size: 14pt, weight: "bold", fill: mid-blue)[
+  #align(center)[#text(size: 14pt, weight: "bold", fill: text-main)[
     (I3)  If $A, B in cal(I)$ and $|A| lt |B|$,
     then $∃ x in B without A$ such that $A union \{x\} in cal(I)$
   ]]
@@ -1010,8 +1017,8 @@ Part III develops them further, including circuits and closure.
     #table(
       columns: (auto, auto, auto),
       stroke: med-gray,
-      fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-gray },
-      table.header(text(fill: white)[*Edge*], text(fill: white)[*Weight*], text(fill: white)[*Action*]),
+      fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { surface } else { surface-2 },
+      table.header(text(fill: text-main)[*Edge*], text(fill: text-main)[*Weight*], text(fill: text-main)[*Action*]),
       [$C–E$], [2], [Add $checkmark$],
       [$A–B$], [4], [Add $checkmark$],
       [$D–E$], [6], [Add $checkmark$],
@@ -1099,8 +1106,8 @@ Part III develops them further, including circuits and closure.
 #table(
   columns: (auto, auto, auto),
   stroke: med-gray,
-  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
-  table.header(text(fill: white)[*Aspect*], text(fill: white)[*Kruskal's*], text(fill: white)[*Prim's*]),
+  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { surface } else { surface-2 },
+  table.header(text(fill: text-main)[*Aspect*], text(fill: text-main)[*Kruskal's*], text(fill: text-main)[*Prim's*]),
   [Strategy], [Global edge sort], [Local vertex expansion],
   [Data structure], [Union-Find (DSU)], [Priority queue],
   [Grows], [A forest (multiple trees)], [One tree from start node],
@@ -1205,8 +1212,8 @@ Part III develops them further, including circuits and closure.
   #table(
     columns: (auto, auto),
     stroke: med-gray,
-    fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-blue },
-    table.header(text(fill: white)[*Application Domain*], text(fill: white)[*Matroid concept used*]),
+    fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { surface } else { surface-2 },
+    table.header(text(fill: text-main)[*Application Domain*], text(fill: text-main)[*Matroid concept used*]),
     [Network design (cable, roads)], [Graphic matroid — MST],
     [Bipartite matching], [Matroid intersection],
     [Job scheduling], [Partition / transversal matroids],
@@ -1255,8 +1262,8 @@ Part III develops them further, including circuits and closure.
 #table(
   columns: (auto, auto),
   stroke: med-gray,
-  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { white } else { light-gray },
-  table.header(text(fill: white)[*Reference*], text(fill: white)[*Focus*]),
+  fill: (col, row) => if row == 0 { dark-blue } else if calc.even(row) { surface } else { surface-2 },
+  table.header(text(fill: text-main)[*Reference*], text(fill: text-main)[*Focus*]),
   [Oxley, J. (2011). _Matroid Theory_, 2nd ed. Oxford University Press.], [Comprehensive reference on matroid theory],
 
   [Edmonds, J. (1971). "Matroids and the Greedy Algorithm." _Math. Programming_ 1, 127–136.],
